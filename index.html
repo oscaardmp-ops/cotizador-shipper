@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Cotizador de importaciones desde EE.UU. a Lima — Shipper Perú">
+<meta name="description" content="Cotiza tu importación desde EE.UU. a Perú — Shipper Perú">
 <meta name="theme-color" content="#7ebdc2">
 <title>Cotizador · Shipper Perú</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,509 +12,158 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Brand Shipper */
-  --brand:#7ebdc2;          /* teal primario */
-  --brand-dark:#5fa5ab;      /* hover */
-  --brand-light:#e8f3f4;     /* fondos */
-  --brand-lighter:#f4fafb;
-  --slate:#394f5b;           /* azul pizarra */
-  --slate-light:#5c7a89;
-  --ink:#1f1d22;             /* texto principal */
-  --gold:#f3bb53;            /* acento */
-  --gold-dark:#c9963e;
-  --gold-light:#fdf5e3;
-
-  /* UI */
-  --bg:#f8f7f3;
-  --surface:#ffffff;
-  --surface-alt:#f1efe9;
-  --border:#e4e1d8;
-  --border-strong:#c9c5b9;
-  --text:var(--ink);
-  --text2:#6b6960;
-  --text3:#9a9890;
-
-  /* Estados */
-  --green:#2a6b3c;
-  --green-light:#eaf3ee;
-  --amber:#7a4f0d;
-  --amber-light:#fdf3e3;
-  --red:#8a2020;
-  --red-light:#fdeaea;
-
-  /* Tokens */
-  --radius:12px;
-  --radius-sm:8px;
-  --radius-xs:6px;
-  --shadow-sm:0 1px 2px rgba(57,79,91,.04);
-  --shadow:0 2px 8px rgba(57,79,91,.06);
+  --brand:#7ebdc2;--brand-dark:#5fa5ab;--brand-light:#e8f3f4;--brand-lighter:#f4fafb;
+  --slate:#394f5b;--ink:#1f1d22;--gold:#f3bb53;--gold-dark:#c9963e;--gold-light:#fdf5e3;
+  --bg:#f8f7f3;--surface:#fff;--surface-alt:#f1efe9;
+  --border:#e4e1d8;--border-strong:#c9c5b9;
+  --text:var(--ink);--text2:#6b6960;--text3:#9a9890;
+  --green:#2a6b3c;--green-light:#eaf3ee;
+  --amber:#7a4f0d;--amber-light:#fdf3e3;
+  --red:#8a2020;--red-light:#fdeaea;
+  --r:12px;--rs:8px;--rx:6px;
+  --sh:0 1px 2px rgba(57,79,91,.04);
 }
-
 html{-webkit-text-size-adjust:100%}
-body{
-  font-family:'Montserrat',-apple-system,BlinkMacSystemFont,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  padding:1.25rem 1rem 3rem;
-  font-feature-settings:"kern" 1,"liga" 1;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:1.25rem 1rem 3rem;-webkit-font-smoothing:antialiased}
 .wrap{max-width:720px;margin:0 auto}
-
-/* ── Header ────────────────────────────────────────────── */
-header{
-  margin-bottom:1.5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:10px
-}
+.mono{font-family:'JetBrains Mono',monospace}
+/* Header */
+header{margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .brand{display:flex;align-items:center;gap:11px}
-.brand-mark{
-  width:38px;height:38px;
-  background:var(--brand);
-  border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-  box-shadow:var(--shadow-sm);
-}
-.brand-mark svg{width:24px;height:24px}
-.brand-text{display:flex;flex-direction:column;gap:1px}
+.brand-mark{width:38px;height:38px;background:var(--brand);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--sh)}
+.brand-mark svg{width:22px;height:22px}
 .brand-name{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1}
 .brand-tag{font-size:11px;color:var(--text3);font-style:italic}
-
-.tc-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:999px;padding:5px 12px;
-  font-size:12px;color:var(--text2);
-  box-shadow:var(--shadow-sm);
-}
-.tc-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
-.tc-dot.fb{background:var(--gold-dark)}
-.tc-val{font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--ink);font-size:12px}
-
-/* ── Card ──────────────────────────────────────────────── */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:1.15rem 1.4rem;
-  margin-bottom:12px;
-  box-shadow:var(--shadow-sm);
-}
-.sec-label{
-  font-size:11px;font-weight:600;
-  color:var(--slate);
-  text-transform:uppercase;letter-spacing:.1em;
-  margin-bottom:11px
-}
-.sep-label{
-  font-size:13px;font-weight:600;color:var(--ink);
-  margin:14px 0 9px;
-  display:flex;align-items:center;gap:6px
-}
-
-/* ── Form fields ──────────────────────────────────────── */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.igroup{display:flex;flex-direction:column;gap:5px;position:relative}
-.igroup label{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:5px;font-weight:500}
-
-.input,.igroup input,.igroup textarea,.igroup select{
-  width:100%;padding:9px 12px;
-  font-family:'Montserrat',sans-serif;font-size:13px;color:var(--ink);
-  background:var(--surface-alt);
-  border:1px solid var(--border);
-  border-radius:var(--radius-xs);
-  outline:none;
-  transition:border-color .15s,background .15s,box-shadow .15s
-}
-.igroup textarea{resize:vertical;min-height:58px;line-height:1.5}
-.igroup input:focus,.igroup textarea:focus,.igroup select:focus{
-  border-color:var(--brand);
-  background:#fff;
-  box-shadow:0 0 0 3px rgba(126,189,194,.18)
-}
-.igroup.has-error input,.igroup.has-error textarea{
-  border-color:var(--red);
-  background:var(--red-light)
-}
-.field-error{font-size:11px;color:var(--red);display:none;font-weight:500}
-.igroup.has-error .field-error{display:block}
-
-.pct-wrap{position:relative}
-.pct-wrap input{padding-right:28px}
-.pct-sym{
-  position:absolute;right:11px;top:50%;transform:translateY(-50%);
-  font-size:13px;color:var(--text3);pointer-events:none;
-  font-family:'JetBrains Mono',monospace
-}
-
-/* ── Tooltip ──────────────────────────────────────────── */
-.tip{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:16px;height:16px;border-radius:50%;
-  background:var(--brand-light);
-  border:1px solid transparent;
-  cursor:help;flex-shrink:0;position:relative
-}
+.tc-pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:5px 12px;font-size:12px;color:var(--text2);box-shadow:var(--sh)}
+.tc-dot{width:7px;height:7px;border-radius:50%;background:var(--gold-dark);flex-shrink:0}
+/* Card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.15rem 1.4rem;margin-bottom:12px;box-shadow:var(--sh)}
+.sec-label{font-size:11px;font-weight:600;color:var(--slate);text-transform:uppercase;letter-spacing:.1em;margin-bottom:11px}
+.sep-label{font-size:13px;font-weight:600;color:var(--ink);margin:14px 0 8px;display:flex;align-items:center;gap:6px}
+/* Form */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ig{display:flex;flex-direction:column;gap:5px;position:relative}
+.ig label{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:5px;font-weight:500}
+.ig input,.ig textarea{width:100%;padding:9px 12px;font-family:'Montserrat',sans-serif;font-size:13px;color:var(--ink);background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--rx);outline:none;transition:border-color .15s,background .15s,box-shadow .15s}
+.ig textarea{resize:vertical;min-height:54px;line-height:1.5}
+.ig input:focus,.ig textarea:focus{border-color:var(--brand);background:#fff;box-shadow:0 0 0 3px rgba(126,189,194,.18)}
+.ig.err input,.ig.err textarea{border-color:var(--red);background:var(--red-light)}
+.ferr{font-size:11px;color:var(--red);display:none;font-weight:500}
+.ig.err .ferr{display:block}
+/* Tooltip */
+.tip{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--brand-light);cursor:help;flex-shrink:0;position:relative;border:none}
 .tip svg{width:10px;height:10px;stroke:var(--slate);stroke-width:2.5;fill:none}
-.tip:hover,.tip:focus{outline:none}
-.tip:hover .tip-box,.tip:focus-within .tip-box{display:block}
-.tip-box{
-  display:none;position:absolute;left:22px;top:-4px;z-index:99;
-  background:var(--slate);color:#fff;
-  font-size:11px;font-weight:400;line-height:1.55;
-  padding:8px 11px;border-radius:var(--radius-xs);
-  width:240px;pointer-events:none;
-  box-shadow:0 4px 12px rgba(0,0,0,.15)
-}
-.tip-box::before{
-  content:'';position:absolute;left:-5px;top:11px;
-  width:0;height:0;
-  border-top:5px solid transparent;border-bottom:5px solid transparent;
-  border-right:5px solid var(--slate)
-}
-.tip-box.tip-left{left:auto;right:22px}
-.tip-box.tip-left::before{
-  left:auto;right:-5px;
-  border-right:none;border-left:5px solid var(--slate)
-}
-
-/* ── Toggle switch ────────────────────────────────────── */
-.toggle-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 0;
-  border-bottom:1px solid var(--border)
-}
-.toggle-row:last-child{border-bottom:none}
-.toggle-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;padding-right:12px}
-.toggle-title{font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:6px}
-.toggle-desc{font-size:11px;color:var(--text3)}
-
-.switch{position:relative;width:38px;height:22px;flex-shrink:0}
-.switch input{opacity:0;width:0;height:0}
-.slider{
-  position:absolute;inset:0;
-  background:var(--border-strong);
-  border-radius:11px;cursor:pointer;
-  transition:background .2s
-}
-.slider::before{
-  content:'';position:absolute;
-  width:16px;height:16px;left:3px;top:3px;
-  background:#fff;border-radius:50%;
-  transition:transform .2s;
-  box-shadow:0 1px 2px rgba(0,0,0,.2)
-}
-.switch input:checked+.slider{background:var(--brand)}
-.switch input:checked+.slider::before{transform:translateX(16px)}
-.switch input:focus-visible+.slider{box-shadow:0 0 0 3px rgba(126,189,194,.3)}
-
-/* ── Items múltiples ──────────────────────────────────── */
-.items-hdr{
-  display:grid;grid-template-columns:1fr 105px 30px;gap:7px;
-  margin-bottom:4px;padding:0 2px
-}
-.items-hdr span{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.item-row{
-  display:grid;grid-template-columns:1fr 105px 30px;gap:7px;
-  align-items:center;margin-bottom:6px
-}
-.item-row input{
-  padding:8px 10px;font-size:13px;
-  background:var(--surface-alt);
-  border:1px solid var(--border);
-  border-radius:var(--radius-xs);
-  outline:none;
-  font-family:'Montserrat',sans-serif;
-  color:var(--ink);
-  width:100%
-}
-.item-row input:focus{
-  border-color:var(--brand);
-  background:#fff;
-  box-shadow:0 0 0 3px rgba(126,189,194,.18)
-}
-.btn-rm{
-  width:30px;height:34px;
-  display:flex;align-items:center;justify-content:center;
-  background:none;border:1px solid var(--border);
-  border-radius:var(--radius-xs);cursor:pointer;
-  color:var(--text3);
-  transition:.15s
-}
-.btn-rm:hover{color:var(--red);border-color:var(--red);background:var(--red-light)}
-.btn-rm svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.btn-add{
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  background:none;border:1px dashed var(--border-strong);
-  border-radius:var(--radius-xs);padding:8px 12px;
-  font-size:12px;color:var(--text2);cursor:pointer;
-  width:100%;margin-top:4px;
-  transition:.15s;
-  font-family:'Montserrat',sans-serif;font-weight:500
-}
-.btn-add:hover{border-color:var(--brand);color:var(--brand-dark);background:var(--brand-lighter)}
-.btn-add svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
-
-/* ── Delivery radio ───────────────────────────────────── */
-.del-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:11px}
-.del-opt{position:relative}
-.del-opt input[type=radio]{position:absolute;opacity:0;width:0;height:0}
-.del-opt label{
-  display:flex;flex-direction:column;gap:3px;
-  padding:9px 11px;
-  border:1px solid var(--border);border-radius:var(--radius-xs);
-  cursor:pointer;background:var(--surface-alt);
-  transition:.15s;font-size:12px;
-  height:100%
-}
-.del-opt label strong{font-size:12px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:4px}
-.del-opt label span{font-size:11px;color:var(--text3);line-height:1.4}
-.del-opt input:checked+label{
-  border-color:var(--brand);background:#fff;
-  box-shadow:0 0 0 3px rgba(126,189,194,.18)
-}
-.del-opt input:checked+label strong{color:var(--brand-dark)}
-
-/* ── Servicios adicionales (notas) ────────────────────── */
-.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.svc-note{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:8px 12px;
-  background:var(--surface-alt);
-  border:1px solid var(--border);
-  border-radius:var(--radius-xs)
-}
-.svc-note-name{
-  font-size:12px;color:var(--text);
-  display:flex;align-items:center;gap:6px;font-weight:500
-}
-.svc-note-price{
-  font-size:12px;font-weight:600;color:var(--brand-dark);
-  font-family:'JetBrains Mono',monospace;
-  flex-shrink:0;margin-left:8px
-}
-
-/* ── Summary cards ────────────────────────────────────── */
-.sum-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:8px;margin-bottom:4px
-}
-.scard{
-  background:var(--surface-alt);
-  border-radius:var(--radius-sm);
-  padding:.8rem 1rem
-}
-.scard.feat{
-  background:var(--slate);
-  color:#fff
-}
-.scard.feat .sl{color:rgba(255,255,255,.65)}
-.scard.feat .sv{color:#fff}
-.scard.feat .sv-sub{color:rgba(255,255,255,.6)}
-.scard.csrj{background:var(--gold-light)}
-.scard.csrj .sl{color:var(--gold-dark)}
-.scard.csrj .sv{color:var(--gold-dark)}
-.scard .sl{font-size:11px;color:var(--text3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.scard .sv{
-  font-size:22px;font-weight:600;color:var(--ink);
-  font-family:'JetBrains Mono',monospace;
-  letter-spacing:-.02em;line-height:1.2
-}
-.scard .sv.brand{color:var(--brand-dark)}
-.scard .sv.green{color:var(--green)}
-.scard .sv-sub{
-  font-size:11px;color:var(--text3);
-  font-family:'JetBrains Mono',monospace;
-  margin-top:2px
-}
-
-/* ── Desglose rows ────────────────────────────────────── */
-.drow{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:6px 0;border-bottom:1px solid var(--border);
-  font-size:13px;gap:8px
-}
+.tip:hover .tb,.tip:focus-within .tb{display:block}
+.tb{display:none;position:absolute;left:22px;top:-4px;z-index:99;background:var(--slate);color:#fff;font-size:11px;line-height:1.55;padding:8px 11px;border-radius:var(--rx);width:230px;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.15);font-weight:400}
+.tb::before{content:'';position:absolute;left:-5px;top:11px;border:5px solid transparent;border-right-color:var(--slate)}
+.tb.tl{left:auto;right:22px}.tb.tl::before{left:auto;right:-5px;border-right:none;border-left-color:var(--slate)}
+/* Toggle */
+.tr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)}
+.tr:last-child,.tr.nb{border-bottom:none}
+.ti{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;padding-right:12px}
+.tt{font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:6px}
+.td{font-size:11px;color:var(--text3)}
+.sw{position:relative;width:38px;height:22px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0}
+.sl{position:absolute;inset:0;background:var(--border-strong);border-radius:11px;cursor:pointer;transition:.2s}
+.sl::before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.sw input:checked+.sl{background:var(--brand)}
+.sw input:checked+.sl::before{transform:translateX(16px)}
+/* Items */
+.ihdr{display:grid;grid-template-columns:1fr 105px 30px;gap:7px;margin-bottom:4px}
+.ihdr span{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.irow{display:grid;grid-template-columns:1fr 105px 30px;gap:7px;align-items:center;margin-bottom:6px}
+.irow input{padding:8px 10px;font-size:13px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--rx);outline:none;font-family:'Montserrat',sans-serif;color:var(--ink);width:100%}
+.irow input:focus{border-color:var(--brand);background:#fff;box-shadow:0 0 0 3px rgba(126,189,194,.18)}
+.brm{width:30px;height:34px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border);border-radius:var(--rx);cursor:pointer;color:var(--text3);transition:.15s}
+.brm:hover{color:var(--red);border-color:var(--red);background:var(--red-light)}
+.brm svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.badd{display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:1px dashed var(--border-strong);border-radius:var(--rx);padding:8px 12px;font-size:12px;color:var(--text2);cursor:pointer;width:100%;margin-top:4px;transition:.15s;font-family:'Montserrat',sans-serif;font-weight:500}
+.badd:hover{border-color:var(--brand);color:var(--brand-dark);background:var(--brand-lighter)}
+.badd svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* Peso estimador */
+.est-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}
+.est-item{display:flex;align-items:center;justify-content:space-between;padding:6px 9px;border:1px solid var(--border);border-radius:var(--rx);cursor:pointer;font-size:12px;transition:.1s;background:var(--surface-alt);user-select:none}
+.est-item:hover{background:var(--brand-light);border-color:var(--brand)}
+.est-w{font-weight:600;color:var(--brand-dark);font-family:'JetBrains Mono',monospace;margin-left:6px;flex-shrink:0}
+/* Delivery */
+.dopt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px;margin-bottom:4px}
+.dopt{position:relative}
+.dopt input[type=radio]{position:absolute;opacity:0;width:0;height:0}
+.dopt label{display:flex;flex-direction:column;gap:3px;padding:9px 11px;border:1px solid var(--border);border-radius:var(--rx);cursor:pointer;background:var(--surface-alt);transition:.15s;font-size:12px;height:100%}
+.dopt label strong{font-size:12px;font-weight:600;color:var(--ink)}
+.dopt label span{font-size:11px;color:var(--text3);line-height:1.4}
+.dopt input:checked+label{border-color:var(--brand);background:#fff;box-shadow:0 0 0 3px rgba(126,189,194,.18)}
+/* Summary */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:4px}
+.sc{background:var(--surface-alt);border-radius:var(--rs);padding:.8rem 1rem}
+.sc.feat{background:var(--slate)}.sc.feat .sl2{color:rgba(255,255,255,.6)}.sc.feat .sv,.sc.feat .ssub{color:#fff}.sc.feat .ssub{opacity:.55}
+.sc.csrj{background:var(--gold-light)}.sc.csrj .sl2,.sc.csrj .sv{color:var(--gold-dark)}
+.sc.simp{background:var(--gold-light);border:1px solid #f0d080}.sc.simp .sl2{color:var(--gold-dark)}.sc.simp .sv{color:var(--gold-dark)}.sc.simp .ssub{color:var(--amber)}
+.sc .sl2{font-size:10px;color:var(--text3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.sc .sv{font-size:21px;font-weight:600;color:var(--ink);font-family:'JetBrains Mono',monospace;letter-spacing:-.02em;line-height:1.2}
+.sc .sv.brand{color:var(--brand-dark)}.sc .sv.grn{color:var(--green)}
+.sc .ssub{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:2px}
+/* Desglose */
+.drow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;gap:8px}
 .drow:last-child{border-bottom:none}
-.drow.total{font-weight:600;font-size:14px;padding-top:9px;border-bottom:none}
-.drow .lbl{color:var(--text2);min-width:0;word-wrap:break-word}
-.drow .val{
-  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);
-  flex-shrink:0;font-weight:500
-}
-.drow.disc .val,.drow.disc .lbl{color:var(--green)}
-.drow.promo .val,.drow.promo .lbl{color:var(--gold-dark)}
+.drow.tot{font-weight:600;font-size:14px;padding-top:9px;border-bottom:none}
+.drow .lb{color:var(--text2);min-width:0;word-wrap:break-word}
+.drow .vl{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);flex-shrink:0;font-weight:500}
+.drow.disc .vl,.drow.disc .lb{color:var(--green)}
+.drow.prm .vl,.drow.prm .lb{color:var(--gold-dark)}
+.drow.h{border-top:1px solid var(--border);margin-top:4px;padding-top:9px;font-weight:600;font-size:13px;color:var(--ink)}
 .divt{border:none;border-top:1px solid var(--border);margin:7px 0}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-
-/* ── Badge ────────────────────────────────────────────── */
-.badge{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:11px;font-weight:600;
-  padding:4px 10px;border-radius:999px;
-  letter-spacing:.02em
-}
-.badge svg{
-  width:11px;height:11px;
-  stroke:currentColor;stroke-width:2.5;fill:none;
-  stroke-linecap:round;stroke-linejoin:round;
-  flex-shrink:0
-}
-.bg-green{background:var(--green-light);color:var(--green)}
-.bg-amber{background:var(--amber-light);color:var(--amber)}
-.bg-red{background:var(--red-light);color:var(--red)}
-
-/* ── Nota ─────────────────────────────────────────────── */
-.nota{
-  font-size:12px;color:var(--text2);
-  background:var(--brand-lighter);
-  border-radius:var(--radius-xs);
-  padding:9px 13px;margin-top:10px;
-  border-left:3px solid var(--brand);
-  line-height:1.55
-}
-
-/* ── Mensaje WhatsApp ─────────────────────────────────── */
-.msg-box{
-  background:var(--surface-alt);
-  border:1px solid var(--border);
-  border-radius:var(--radius-xs);
-  padding:11px 13px;
-  font-size:12px;color:var(--ink);
-  white-space:pre-wrap;line-height:1.65;
-  font-family:'JetBrains Mono',monospace;
-  word-break:break-word;
-  max-height:280px;overflow-y:auto
-}
-.btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.btn{
-  display:inline-flex;align-items:center;gap:7px;
-  border:none;border-radius:var(--radius-xs);
-  padding:9px 18px;
-  font-size:13px;font-weight:600;
-  cursor:pointer;
-  transition:transform .1s,opacity .15s,background .15s;
-  font-family:'Montserrat',sans-serif
-}
-.btn:hover{opacity:.92}
-.btn:active{transform:scale(.98)}
-.btn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
-.btn svg{
-  width:14px;height:14px;
-  stroke:currentColor;stroke-width:2;fill:none;
-  stroke-linecap:round;stroke-linejoin:round
-}
-.btn-primary{background:var(--brand);color:#fff}
-.btn-primary:hover{background:var(--brand-dark);opacity:1}
-.btn-wa{background:#25D366;color:#fff}
-.btn-wa:hover{background:#1ebe5a;opacity:1}
-.btn-ghost{background:var(--surface);color:var(--text);border:1px solid var(--border)}
-.btn-ghost:hover{background:var(--surface-alt);opacity:1}
-.btn-slate{background:var(--slate);color:#fff}
-.btn-slate:hover{background:#2a3b44;opacity:1}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px}
+.badge svg{width:11px;height:11px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.bg-g{background:var(--green-light);color:var(--green)}.bg-a{background:var(--amber-light);color:var(--amber)}.bg-r{background:var(--red-light);color:var(--red)}
+/* Nota */
+.nota{font-size:12px;color:var(--text2);background:var(--brand-lighter);border-radius:var(--rx);padding:9px 13px;margin-top:10px;border-left:3px solid var(--brand);line-height:1.55}
+/* Mensaje */
+.msgbox{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--rx);padding:11px 13px;font-size:12px;color:var(--ink);white-space:pre-wrap;line-height:1.65;font-family:'JetBrains Mono',monospace;word-break:break-word;max-height:280px;overflow-y:auto}
+.brow{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:var(--rx);padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .1s,opacity .15s;font-family:'Montserrat',sans-serif}
+.btn:hover{opacity:.9}.btn:active{transform:scale(.98)}
+.btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bwa{background:#25D366;color:#fff}
+.bgh{background:var(--surface);color:var(--text);border:1px solid var(--border)}
 .btn.ok{background:var(--green)!important;color:#fff}
-
-/* ── Historial ────────────────────────────────────────── */
-.hist-empty{
-  font-size:12px;color:var(--text3);text-align:center;
-  padding:1rem 0
-}
-.hist-item{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:9px 0;
-  border-bottom:1px solid var(--border);gap:10px
-}
-.hist-item:last-child{border-bottom:none}
-.hist-info{flex:1;min-width:0}
-.hist-title{
-  font-size:13px;font-weight:600;color:var(--ink);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-}
-.hist-meta{font-size:11px;color:var(--text3);margin-top:2px}
-.hist-total{
-  font-family:'JetBrains Mono',monospace;
-  font-size:13px;font-weight:600;color:var(--brand-dark);
-  flex-shrink:0
-}
-.hist-btns{display:flex;gap:4px}
-.btn-hist{
-  width:28px;height:28px;
-  display:flex;align-items:center;justify-content:center;
-  background:none;border:1px solid var(--border);
-  border-radius:var(--radius-xs);cursor:pointer;
-  color:var(--text3);
-  transition:.15s
-}
-.btn-hist:hover{color:var(--brand-dark);border-color:var(--brand)}
-.btn-hist.del:hover{color:var(--red);border-color:var(--red)}
-.btn-hist svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-
-.link-clear{
-  background:none;border:none;
-  font-size:12px;color:var(--text3);
-  cursor:pointer;padding:3px 8px;
-  border-radius:var(--radius-xs);
-  font-family:'Montserrat',sans-serif
-}
-.link-clear:hover{color:var(--red);background:var(--red-light)}
-
-/* ── Empty state ──────────────────────────────────────── */
-.empty-st{
-  display:flex;flex-direction:column;align-items:center;
-  padding:1.4rem 0;gap:6px
-}
-.empty-st svg{width:28px;height:28px;stroke:var(--green);stroke-width:1.5;fill:none}
-.empty-st p{font-size:12px;color:var(--text2);text-align:center;line-height:1.5}
-
-footer{
-  text-align:center;font-size:11px;color:var(--text3);
-  margin-top:1.5rem;padding-top:1rem;
-  border-top:1px solid var(--border)
-}
-
-/* ── Modal de confirmación ────────────────────────────── */
-.modal-backdrop{
-  position:fixed;inset:0;
-  background:rgba(31,29,34,.45);
-  display:none;align-items:center;justify-content:center;
-  z-index:1000;padding:1rem;
-  backdrop-filter:blur(2px)
-}
-.modal-backdrop.open{display:flex}
-.modal{
-  background:#fff;border-radius:var(--radius);
-  padding:1.5rem;max-width:380px;width:100%;
-  box-shadow:0 10px 40px rgba(0,0,0,.2)
-}
-.modal h3{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px}
-.modal p{font-size:13px;color:var(--text2);margin-bottom:1rem;line-height:1.5}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end}
-
-/* ── Responsive ───────────────────────────────────────── */
-@media(max-width:540px){
-  body{padding:1rem .75rem 2rem}
-  .wrap{padding:0}
-  .two-col,.grid2,.svc-grid{grid-template-columns:1fr}
-  .del-opts{grid-template-columns:1fr}
-  .sum-grid{grid-template-columns:1fr 1fr}
-  header{flex-direction:column;align-items:flex-start}
-  .tc-pill{align-self:flex-start}
-  .card{padding:1rem 1.1rem}
-  .tip-box{width:200px}
-}
-@media(max-width:380px){
-  .sum-grid{grid-template-columns:1fr}
-  .btn-row .btn{flex:1;justify-content:center}
-}
-
-/* ── Accesibilidad ────────────────────────────────────── */
+/* Servicios */
+.svcgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.svcn{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--rx)}
+.svcnm{font-size:12px;color:var(--text);display:flex;align-items:center;gap:6px;font-weight:500}
+.svcpr{font-size:12px;font-weight:600;color:var(--brand-dark);font-family:'JetBrains Mono',monospace;flex-shrink:0;margin-left:8px}
+/* Discount status */
+.dsts{font-size:12px;padding:7px 10px;border-radius:var(--rx);margin-top:5px;display:none}
+.dsts.ok{background:var(--green-light);color:var(--green)}
+.dsts.ko{background:var(--red-light);color:var(--red)}
+/* Historial */
+.hempty{font-size:12px;color:var(--text3);text-align:center;padding:1rem 0}
+.hitem{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);gap:10px}
+.hitem:last-child{border-bottom:none}
+.hinfo{flex:1;min-width:0}
+.htit{font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hmeta{font-size:11px;color:var(--text3);margin-top:2px}
+.htot{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--brand-dark);flex-shrink:0}
+.hbtns{display:flex;gap:4px}
+.bhist{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border);border-radius:var(--rx);cursor:pointer;color:var(--text3);transition:.15s}
+.bhist:hover{color:var(--brand-dark);border-color:var(--brand)}
+.bhist.del:hover{color:var(--red);border-color:var(--red)}
+.bhist svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.lclr{background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;padding:3px 8px;border-radius:var(--rx);font-family:'Montserrat',sans-serif}
+.lclr:hover{color:var(--red);background:var(--red-light)}
+.emst{display:flex;flex-direction:column;align-items:center;padding:1.4rem 0;gap:6px}
+.emst svg{width:28px;height:28px;stroke:var(--green);stroke-width:1.5;fill:none}
+.emst p{font-size:12px;color:var(--text2);text-align:center;line-height:1.5}
+/* Auto-save indicator */
+.autosave{font-size:11px;color:var(--text3);text-align:right;padding:4px 0;min-height:18px;transition:color .3s}
+.autosave.saved{color:var(--green)}
+footer{text-align:center;font-size:11px;color:var(--text3);margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-*:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
-input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none}
+@media(max-width:540px){body{padding:1rem .75rem 2rem}.twocol,.g2,.svcgrid{grid-template-columns:1fr}.dopt-grid{grid-template-columns:1fr 1fr}.est-grid{grid-template-columns:1fr}.sgrid{grid-template-columns:1fr 1fr}header{flex-direction:column;align-items:flex-start}.card{padding:1rem 1.1rem}.tb{width:200px}}
+@media(max-width:380px){.sgrid{grid-template-columns:1fr}.brow .btn{flex:1;justify-content:center}}
 </style>
 </head>
 <body>
@@ -523,1177 +172,949 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none}
 <header>
   <div class="brand">
     <div class="brand-mark" aria-hidden="true">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 12 a38 38 0 0 1 38 38 a38 38 0 0 1 -38 38 a38 38 0 0 1 -27-11 L78 27 a38 38 0 0 1 10 23z M50 88 a38 38 0 0 1 -38-38 a38 38 0 0 1 38-38 a38 38 0 0 1 27 11 L22 73 a38 38 0 0 1 -10-23z" fill="#fff"/>
-      </svg>
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="36" fill="none" stroke="#fff" stroke-width="7"/><line x1="25" y1="75" x2="75" y2="25" stroke="#fff" stroke-width="7" stroke-linecap="round"/></svg>
     </div>
-    <div class="brand-text">
-      <span class="brand-name">Shipper</span>
-      <span class="brand-tag">tráelo con Shipper</span>
-    </div>
+    <div><div class="brand-name">Shipper</div><div class="brand-tag">tráelo con Shipper</div></div>
   </div>
-  <div class="tc-pill" title="Tipo de cambio USD/PEN" id="tc-pill">
-    <span class="tc-dot" id="tc-dot" aria-hidden="true"></span>
-    <span>TC:</span>
-    <span class="tc-val" id="tc-disp">S/ 3.50</span>
-    <span id="tc-src" style="font-size:11px;color:var(--text3)">ref.</span>
+  <div class="tc-pill" title="Tipo de cambio referencial">
+    <span class="tc-dot" aria-hidden="true"></span>
+    TC: <span class="mono" id="tc-disp">S/ 3.50</span>
+    <span style="font-size:11px;color:var(--text3)">ref.</span>
   </div>
 </header>
 
-<!-- ── FORM ───────────────────────────────────────────────────── -->
-<div class="card">
-  <h2 class="sr-only">Cotizador de importaciones</h2>
-  <p class="sec-label">Datos del envío</p>
+<h2 class="sr-only">Cotizador de importaciones Shipper Perú</h2>
 
-  <div class="grid2" style="margin-bottom:11px">
-    <div class="igroup">
-      <label for="desc-cot">
-        Descripción (opcional)
-        <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="tip-box">Describe brevemente qué se está importando. Aparecerá en el mensaje al cliente.</span>
-        </span>
-      </label>
-      <textarea id="desc-cot" placeholder="Ej: Zapatillas Nike, electrónico..." rows="2"></textarea>
+<!-- BIENVENIDA / INSTRUCTIVO -->
+<div class="card" style="background:linear-gradient(135deg,var(--slate) 0%,#2a3f4a 100%);color:#fff;border-color:transparent">
+  <p style="font-size:18px;font-weight:700;margin-bottom:6px;line-height:1.3">¿Quieres cotizar algo? 📦✈️</p>
+  <p style="font-size:13px;opacity:.85;margin-bottom:14px;line-height:1.6">Solo dime <strong>qué es</strong>, cuánto <strong>cuesta</strong> y cuánto <strong>pesa</strong> — y te digo exactamente cuánto te cobra Shipper por traértelo de EE.UU. a Perú.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px">
+    <div style="background:rgba(255,255,255,.1);border-radius:var(--rx);padding:10px 12px">
+      <p style="font-size:18px;margin-bottom:3px">🏷️</p>
+      <p style="font-size:12px;font-weight:600;margin-bottom:2px">Describe el producto</p>
+      <p style="font-size:11px;opacity:.7;line-height:1.4">Ej: "Zapatillas Nike Air Max" — detectamos el peso automáticamente</p>
     </div>
-    <div class="igroup">
-      <label for="cliente">
-        Cliente (opcional)
-        <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="tip-box">Nombre del cliente para personalizar la cotización.</span>
-        </span>
-      </label>
-      <input type="text" id="cliente" placeholder="Nombre del cliente" autocomplete="off">
+    <div style="background:rgba(255,255,255,.1);border-radius:var(--rx);padding:10px 12px">
+      <p style="font-size:18px;margin-bottom:3px">💵</p>
+      <p style="font-size:12px;font-weight:600;margin-bottom:2px">Ingresa el valor</p>
+      <p style="font-size:11px;opacity:.7;line-height:1.4">El precio en dólares. Si supera $200 aplican impuestos SUNAT</p>
     </div>
-  </div>
-
-  <div class="sep-label">Opciones de servicio</div>
-  <div style="margin-bottom:11px">
-    <div class="toggle-row">
-      <div class="toggle-info">
-        <span class="toggle-title">Múltiples compras
-          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span class="tip-box">Cotiza varios productos en un envío. Productos ≤ $200 c/u se suman y pagan un solo desaduanaje. Productos > $200 pagan SUNAT individualmente.</span>
-          </span>
-        </span>
-        <span class="toggle-desc">Varios productos en un mismo envío</span>
-      </div>
-      <label class="switch"><input type="checkbox" id="tog-multi" aria-label="Activar múltiples compras"><span class="slider"></span></label>
+    <div style="background:rgba(255,255,255,.1);border-radius:var(--rx);padding:10px 12px">
+      <p style="font-size:18px;margin-bottom:3px">⚖️</p>
+      <p style="font-size:12px;font-weight:600;margin-bottom:2px">Confirma el peso</p>
+      <p style="font-size:11px;opacity:.7;line-height:1.4">Si no sabes, usa el estimador — ya tenemos el peso promedio de los productos más pedidos</p>
     </div>
-    <div class="toggle-row">
-      <div class="toggle-info">
-        <span class="toggle-title">Servicio Concierge
-          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span class="tip-box tip-left">Compramos por ti en tiendas de EE.UU. Se cobra $1 fijo + 1% del valor del producto.</span>
-          </span>
-        </span>
-        <span class="toggle-desc">Compramos por ti — $1 + 1% del valor</span>
-      </div>
-      <label class="switch"><input type="checkbox" id="tog-concierge" aria-label="Activar concierge"><span class="slider"></span></label>
-    </div>
-    <div class="toggle-row">
-      <div class="toggle-info">
-        <span class="toggle-title">Delivery Lima
-          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span class="tip-box tip-left">Elige cómo recibirá el cliente su paquete en Lima.</span>
-          </span>
-        </span>
-        <span class="toggle-desc">Elige cómo recibirá el paquete</span>
-      </div>
-      <label class="switch"><input type="checkbox" id="tog-delivery" aria-label="Activar delivery"><span class="slider"></span></label>
+    <div style="background:rgba(255,255,255,.1);border-radius:var(--rx);padding:10px 12px">
+      <p style="font-size:18px;margin-bottom:3px">⚙️</p>
+      <p style="font-size:12px;font-weight:600;margin-bottom:2px">Opciones avanzadas</p>
+      <p style="font-size:11px;opacity:.7;line-height:1.4">Múltiples productos, concierge, entrega, código de descuento y más</p>
     </div>
   </div>
-
-  <!-- Delivery options -->
-  <div id="del-opts" style="display:none">
-    <div class="del-opts" role="radiogroup" aria-label="Opciones de delivery">
-      <div class="del-opt">
-        <input type="radio" name="delivery" id="del-shalom" value="shalom" checked>
-        <label for="del-shalom">
-          <strong>Shalom</strong>
-          <span>Contraentrega · sin costo</span>
-        </label>
-      </div>
-      <div class="del-opt">
-        <input type="radio" name="delivery" id="del-olva" value="olva">
-        <label for="del-olva">
-          <strong>Olva Courier</strong>
-          <span>Agencia Olva · desde $4</span>
-        </label>
-      </div>
-      <div class="del-opt">
-        <input type="radio" name="delivery" id="del-express" value="express">
-        <label for="del-express">
-          <strong>Express</strong>
-          <span>A domicilio · desde $4</span>
-        </label>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modo único -->
-  <div id="modo-single">
-    <div class="grid2">
-      <div class="igroup" id="grp-valor">
-        <label for="valor">
-          Valor del producto (US$)
-          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span class="tip-box">Precio del producto en dólares. Si supera $200, aplican impuestos SUNAT. Máximo $2,000 (régimen courier).</span>
-          </span>
-        </label>
-        <input type="number" id="valor" min="0.01" max="2000" step="0.01" placeholder="Ej: 150.00" autocomplete="off" inputmode="decimal">
-        <span class="field-error" id="err-valor" role="alert"></span>
-      </div>
-      <div class="igroup" id="grp-peso">
-        <label for="peso">
-          Peso (kg)
-          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span class="tip-box">Peso del paquete en kg. Se cobra $10 por kg. Mínimo 0.1 kg. Se redondea a 1 decimal.</span>
-          </span>
-        </label>
-        <input type="number" id="peso" min="0.1" max="500" step="0.1" placeholder="Ej: 1.5" autocomplete="off" inputmode="decimal">
-        <span class="field-error" id="err-peso" role="alert"></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modo múltiple -->
-  <div id="modo-multi" style="display:none">
-    <div class="items-hdr">
-      <span>Producto</span>
-      <span style="text-align:right">Valor (US$)</span>
-      <span></span>
-    </div>
-    <div id="items-list" role="list"></div>
-    <button type="button" class="btn-add" id="btn-add-item" aria-label="Agregar producto">
-      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Agregar producto
-    </button>
-    <div style="margin-top:11px;max-width:220px">
-      <div class="igroup" id="grp-peso-m">
-        <label for="peso-m">
-          Peso total (kg)
-          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span class="tip-box">Peso total de todos los productos juntos.</span>
-          </span>
-        </label>
-        <input type="number" id="peso-m" min="0.1" max="500" step="0.1" placeholder="Ej: 2.0" autocomplete="off" inputmode="decimal">
-        <span class="field-error" id="err-peso-m" role="alert"></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Descuentos -->
-  <div class="sep-label">
-    Descuentos
-    <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span class="tip-box">Si acordaste un descuento con el cliente, ingrésalo. Solo afecta nuestras tarifas, no los impuestos SUNAT.</span>
-    </span>
-  </div>
-  <div class="grid2">
-    <div class="igroup" id="grp-dp">
-      <label for="desc-peso">
-        Descuento en envío (peso)
-        <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="tip-box">% de descuento sobre el costo de envío por peso ($10/kg).</span>
-        </span>
-      </label>
-      <div class="pct-wrap">
-        <input type="number" id="desc-peso" min="0" max="100" step="1" placeholder="0" autocomplete="off" inputmode="numeric">
-        <span class="pct-sym">%</span>
-      </div>
-      <span class="field-error" id="err-dp" role="alert"></span>
-    </div>
-    <div class="igroup" id="grp-da">
-      <label for="desc-aduana">
-        Descuento en desaduanaje
-        <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="tip-box">% de descuento sobre la tarifa de desaduanaje.</span>
-        </span>
-      </label>
-      <div class="pct-wrap">
-        <input type="number" id="desc-aduana" min="0" max="100" step="1" placeholder="0" autocomplete="off" inputmode="numeric">
-        <span class="pct-sym">%</span>
-      </div>
-      <span class="field-error" id="err-da" role="alert"></span>
-    </div>
-  </div>
-
-  <!-- Servicios adicionales (notas) -->
-  <div class="sep-label">
-    Servicios adicionales
-    <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span class="tip-box">Otros servicios disponibles en nuestro almacén en EE.UU.</span>
-    </span>
-  </div>
-  <div class="svc-grid" id="svc-grid"></div>
 </div>
 
+<!-- FORMULARIO -->
+<div class="card">
+  <p class="sec-label">¿Qué estás importando?</p>
+  <div class="g2" style="margin-bottom:12px">
+    <div class="ig" id="grp-desc">
+      <label for="desc-cot">¿Qué estás importando? <span style="color:var(--red);font-weight:600">*</span>
+        <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tb">Describe brevemente qué estás comprando. Ej: "Zapatillas Nike Air Max", "iPhone 15". Esto nos ayuda a sugerirte el peso y aparece en tu cotización.</span></span>
+      </label>
+      <textarea id="desc-cot" placeholder="Ej: Zapatillas Nike Air Max, laptop Dell XPS..." rows="2" required></textarea>
+      <span class="ferr" id="err-desc" role="alert"></span>
+    </div>
+    <div class="ig">
+      <label for="cliente">Tu nombre <span style="font-weight:400;color:var(--text3)">(opcional)</span></label>
+      <input type="text" id="cliente" placeholder="Para personalizar tu cotización" autocomplete="off">
+    </div>
+  </div>
+
+  <!-- MODO ÚNICO -->
+  <div id="modo-single">
+    <p class="sec-label">Valor y peso</p>
+    <div class="g2">
+      <div class="ig" id="grp-valor">
+        <label for="valor">Valor del producto (US$)
+          <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tb">Precio de compra en dólares. Productos sobre $200 pagan impuestos SUNAT. Máximo $2,000 en régimen courier.</span></span>
+        </label>
+        <input type="number" id="valor" min="0.01" max="2000" step="0.01" placeholder="Ej: 150.00" inputmode="decimal">
+        <span class="ferr" id="err-valor" role="alert"></span>
+      </div>
+      <div class="ig" id="grp-peso">
+        <label for="peso">Peso estimado (kg)
+          <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tb">Se cobra $10 por kg. Si no sabes el peso exacto, usa el estimador debajo.</span></span>
+        </label>
+        <input type="number" id="peso" min="0.1" max="500" step="0.1" placeholder="Ej: 1.5" inputmode="decimal">
+        <span class="ferr" id="err-peso" role="alert"></span>
+        <div id="peso-hint" style="display:none;margin-top:5px;font-size:12px;color:var(--slate);background:var(--brand-lighter);border:1px solid var(--brand-light);border-radius:var(--rx);padding:7px 10px;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;line-height:1.4"></div>
+      </div>
+    </div>
+    <!-- Estimador full-width fuera del grid -->
+    <div style="margin-top:6px">
+      <button type="button" id="btn-est-s" onclick="toggleEst('est-single')"
+        style="background:none;border:none;padding:3px 0;font-size:11px;color:var(--brand-dark);cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500;display:flex;align-items:center;gap:4px">
+        <svg id="est-s-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+        ¿No sabes el peso? Elige un estimado
+      </button>
+      <div class="est-grid" id="est-single" style="display:none;margin-top:5px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))"></div>
+    </div>
+  </div>
+
+  <!-- MODO MÚLTIPLE -->
+  <div id="modo-multi" style="display:none">
+    <p class="sec-label">Productos a importar</p>
+    <div style="background:var(--brand-lighter);border:1px solid var(--brand-light);border-radius:var(--rx);padding:9px 12px;margin-bottom:12px;font-size:12px;color:var(--slate);line-height:1.6">
+      <strong>¿Cómo funciona?</strong> Agrega cada producto con su valor. El desaduanaje se calcula sobre la suma total. Si algún producto supera $200 individualmente, ese producto paga impuestos SUNAT por separado.
+    </div>
+    <div class="ihdr"><span>Producto</span><span style="text-align:right">Valor (US$)</span><span></span></div>
+    <div id="items-list" role="list"></div>
+    <button type="button" class="badd" id="btn-add-item"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Agregar producto</button>
+    <div style="margin-top:11px">
+      <div class="ig" id="grp-peso-m" style="max-width:240px">
+        <label for="peso-m">Peso total estimado (kg)
+          <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tb">Peso total de todos los productos juntos en kg.</span></span>
+        </label>
+        <input type="number" id="peso-m" min="0.1" max="500" step="0.1" placeholder="Ej: 2.0" inputmode="decimal">
+        <span class="ferr" id="err-peso-m" role="alert"></span>
+      </div>
+      <div style="margin-top:6px">
+        <button type="button" id="btn-est-m" onclick="toggleEst('est-multi')"
+          style="background:none;border:none;padding:3px 0;font-size:11px;color:var(--brand-dark);cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500;display:flex;align-items:center;gap:4px">
+          <svg id="est-m-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
+          ¿No sabes el peso? Elige un estimado
+        </button>
+        <div class="est-grid" id="est-multi" style="display:none;margin-top:5px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep-label">Opciones</div>
+  <div>
+    <div class="tr">
+      <div class="ti">
+        <span class="tt">Múltiples compras
+          <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tb">Actívalo si tienes varios productos en el mismo envío.</span></span>
+        </span>
+        <span class="td">Varios productos en un solo envío</span>
+      </div>
+      <label class="sw"><input type="checkbox" id="tog-multi"><span class="sl"></span></label>
+    </div>
+    <div class="tr">
+      <div class="ti">
+        <span class="tt">Servicio Concierge
+          <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tb tl">Compramos por ti en EE.UU. Pagas el valor del producto + comisión ($1 fijo + 1%). Útil si no tienes tarjeta internacional.</span></span>
+        </span>
+        <span class="td">Compramos por ti — valor + $1 + 1%</span>
+      </div>
+      <label class="sw"><input type="checkbox" id="tog-concierge"><span class="sl"></span></label>
+    </div>
+    <div class="tr">
+      <div class="ti">
+        <span class="tt">Entrega en Perú
+          <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tb tl">Trasladamos tu paquete a la agencia sin costo adicional. Olva y Shalom cubren todo Perú. Delivery express solo en Lima.</span></span>
+        </span>
+        <span class="td">Elige cómo recibes tu paquete</span>
+      </div>
+      <label class="sw"><input type="checkbox" id="tog-delivery"><span class="sl"></span></label>
+    </div>
+    <div id="del-opts" style="display:none">
+      <div class="dopt-grid" role="radiogroup" aria-label="Tipo de entrega">
+        <div class="dopt"><input type="radio" name="delivery" id="del-almacen" value="almacen" checked><label for="del-almacen"><strong>🏬 Recojo en almacén</strong><span>Lima · gratis</span></label></div>
+        <div class="dopt"><input type="radio" name="delivery" id="del-shalom" value="shalom"><label for="del-shalom"><strong>🚚 Shalom</strong><span>Todo Perú · contraentrega</span></label></div>
+        <div class="dopt"><input type="radio" name="delivery" id="del-olva" value="olva"><label for="del-olva"><strong>📦 Olva Courier</strong><span>Todo Perú · desde $4</span></label></div>
+        <div class="dopt"><input type="radio" name="delivery" id="del-express" value="express"><label for="del-express"><strong>⚡ Express</strong><span>Solo Lima · desde $4</span></label></div>
+      </div>
+    </div>
+    <div class="tr nb">
+      <div class="ti">
+        <span class="tt">¿Tienes un descuento?
+          <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="tb tl">Si te dimos un código de descuento, activa esta opción e ingrésalo aquí.</span></span>
+        </span>
+        <span class="td">Ingresa tu código de descuento</span>
+      </div>
+      <label class="sw"><input type="checkbox" id="tog-discount"><span class="sl"></span></label>
+    </div>
+    <div id="discount-section" style="display:none;margin-top:8px;margin-bottom:2px">
+      <div class="ig" style="max-width:300px">
+        <label for="discount-code">Código de descuento</label>
+        <input type="text" id="discount-code" placeholder="Ingresa tu código" autocomplete="off"
+          style="text-transform:uppercase;font-family:'JetBrains Mono',monospace;letter-spacing:.1em">
+        <div class="dsts" id="dsts"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTADO -->
 <div id="resultado" aria-live="polite"></div>
+
+<!-- SERVICIO VIAJERO (aparece contextualmente cuando hay impuestos) -->
+<div id="viajero-bloque" class="card" style="display:none;border-color:var(--brand);background:var(--brand-lighter);margin-top:4px"></div>
+
+<div class="autosave" id="autosave-lbl"></div>
 
 <!-- HISTORIAL -->
 <div class="card">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
     <p class="sec-label" style="margin:0">Historial de cotizaciones</p>
-    <button type="button" id="btn-clear-hist" class="link-clear" style="display:none">Limpiar todo</button>
+    <button type="button" id="btn-clear-hist" class="lclr" style="display:none">Limpiar</button>
   </div>
   <div id="hist-list"></div>
 </div>
 
-<footer>Shipper Perú &nbsp;·&nbsp; Importaciones USA → Lima &nbsp;·&nbsp; Régimen courier SUNAT hasta US$&nbsp;2,000</footer>
-</div>
-
-<!-- Modal confirm -->
-<div class="modal-backdrop" id="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
-  <div class="modal">
-    <h3 id="modal-title">Confirmar acción</h3>
-    <p id="modal-msg">¿Estás seguro?</p>
-    <div class="modal-actions">
-      <button type="button" class="btn btn-ghost" id="modal-cancel">Cancelar</button>
-      <button type="button" class="btn btn-primary" id="modal-confirm">Confirmar</button>
-    </div>
+<!-- SERVICIOS ADICIONALES (solo informativo, fuera del cotizador) -->
+<div class="card">
+  <p class="sec-label">Otros servicios disponibles</p>
+  <p style="font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.5">Servicios adicionales que ofrecemos en nuestro almacén en EE.UU. No se incluyen en la cotización. Consúltanos por WhatsApp si necesitas alguno.</p>
+  <div class="svcgrid" id="svc-grid"></div>
+  <div class="nota" style="margin-top:10px">
+    ✈️ <strong>Servicio Viajero:</strong> Para productos que superan los $200, ofrecemos alternativas para optimizar tus impuestos.
+    <a href="https://wa.me/51989456429?text=Hola%2C%20quiero%20consultar%20sobre%20el%20servicio%20viajero" target="_blank" rel="noopener" style="color:var(--brand-dark);font-weight:600;text-decoration:none">Consultar por WhatsApp →</a>
   </div>
 </div>
 
+<footer>Shipper Perú &nbsp;·&nbsp; Importaciones USA → Perú &nbsp;·&nbsp; Régimen courier SUNAT hasta US$ 2,000</footer>
+</div>
 <script>
 'use strict';
-
-// ─────────────────────────────────────────────────────────────────
-// CONFIG
-// ─────────────────────────────────────────────────────────────────
-const CONFIG = Object.freeze({
-  WA_NUMBER: '51989456429',
-  TC_FALLBACK: 3.50,
-  TC_APIS: [
-    'https://api.exchangerate-api.com/v4/latest/USD',
-    'https://open.er-api.com/v6/latest/USD'
-  ],
-  STORAGE_KEY: 'shipper_cotizaciones_v2',
-  MAX_HISTORIAL: 20,
-  COURIER_MAX: 2000,
-  SUNAT_THRESHOLD: 200,
-  PESO_RATE: 10,           // $10 por kg
-  CONCIERGE_FIJO: 1,        // $1 fijo
-  CONCIERGE_PCT: 0.01,      // 1%
+// ─── CONFIG ──────────────────────────────────────────────────────────
+const CFG = Object.freeze({
+  WA: '51989456429',
+  TC_FB: 3.50,
+  TC_APIS: ['https://api.exchangerate-api.com/v4/latest/USD','https://open.er-api.com/v6/latest/USD'],
+  SK: 'shipper_v4',
+  MAX_H: 30,
+  CMAX: 2000,
+  SUNAT_TH: 200,
+  PR: 10,      // $10/kg
+  CF: 1,       // concierge fijo
+  CP: 0.01,    // concierge %
 });
 
+// ─── CÓDIGOS DE DESCUENTO ─────────────────────────────────────────────
+const DCODES = Object.freeze({
+  'SHP-NEW10-RV':  { type:'pct', dp:10, da:10, label:'👶 Shippitos', desc:'Tu primera aventura con Shipper ✈📦 Aún estás descubriendo el multiverso de compras USA → Perú 😅' },
+  'SHP-FRQ10-MZ':  { type:'pct', dp:10, da:10, label:'💙 ShipperLovers', desc:'Ya eres parte de la familia Shipper 😎 Compras tanto que probablemente ya conoces más tracking numbers que familiares 😂' },
+  'SHP-FAM15-KQ':  { type:'pct', dp:15, da:15, label:'💛 Los Shippis F&F', desc:'El círculo de confianza 👀 Los que tienen línea directa, chismes internos y trato VIP porque son de la casa 💙' },
+  'SHP-PRV1-XW8':  { type:'pct', dp:20, da:20, label:'💎 ShippiVIPS', desc:'Aquí ya desbloqueaste beneficios especiales 😏 Sabemos que mueves carga seguido y hay que cuidarte como cliente premium ✈📦' },
+  'SHP-PRV2-NJ4':  { type:'pct', dp:25, da:25, label:'😎 ShippiBOSSES', desc:'Los que ya juegan en ligas mayores 🔥 básicamente cenan con el tío Shipper 😂' },
+  'SHP-CRT5-HB':   { type:'pct', dp:5,  da:5,  label:'💚 Shippibos', desc:'La categoría secreta 👀🎁 Descuentos especiales activados porque simplemente nos caes bien 😅' },
+});
+const PROV3_RE = /^(\d{2})SHIPR(\d{2})$/;
+
 const SVCS = Object.freeze([
-  { name:'Foto de contenido', price:'desde $5', tip:'Tomamos foto del contenido de tu paquete antes de enviarlo para verificar que todo llegó correctamente.' },
-  { name:'Consolidación',     price:'gratis hasta 5 pkgs', tip:'Unimos varios paquetes en una sola guía para ahorrar en desaduanaje. Gratis hasta 5 paquetes.' },
-  { name:'Separación',        price:'desde $5/pkg', tip:'Separamos los artículos de tu paquete para identificarlos o distribuirlos entre destinatarios.' },
-  { name:'Pickup',            price:'desde $15', tip:'Recogemos tu paquete en una dirección dentro de EE.UU.' },
-  { name:'In/Out',            price:'desde $25', tip:'Retiramos tu paquete del almacén sin enviarlo a Perú. Exonerable según el caso. Útil si decides gestionar el envío por tu cuenta.' },
-  { name:'Bubble wrap',       price:'desde $5', tip:'Protegemos tu paquete con plástico burbuja para evitar daños durante el tránsito.' },
+  {name:'Foto de contenido',    price:'desde $5',           tip:'Tomamos foto del contenido antes de enviarlo para verificar que llegó todo.'},
+  {name:'Consolidación',        price:'gratis hasta 5 pkgs', tip:'Unimos varios paquetes en una sola guía para ahorrar en desaduanaje.'},
+  {name:'Separación',           price:'desde $5/pkg',        tip:'Separamos artículos para identificarlos o distribuirlos entre destinatarios.'},
+  {name:'Pickup',               price:'desde $15',           tip:'Recogemos tu paquete en una dirección dentro de EE.UU.'},
+  {name:'In/Out',               price:'desde $25',           tip:'Retiramos tu paquete de nuestro almacén sin enviarlo a Perú. Exonerable según el caso.'},
+  {name:'Bubble wrap',          price:'desde $5',            tip:'Protegemos tu paquete con plástico burbuja para evitar daños en tránsito.'},
+  {name:'🤝 Price Match Warranty', price:'sin costo',        tip:'¿Te cotizaron más barato en otro courier? ¡Igualamos el precio! Muéstranos la cotización y te hacemos el match. Aplica condiciones.'},
 ]);
 
-// ─────────────────────────────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────────────────────────────
-const state = {
-  tc: CONFIG.TC_FALLBACK,
-  tcSrc: 'fallback',
-  itemSeq: 0,
-  lastResult: null,
-  modalCallback: null
-};
+// Tabla de pesos basada en los productos más pedidos (ordenado por volumen)
+const PESOS = [
+  {e:'👕', n:'Ropa (polo, hoodie, pants, jacket)',       p:1.0, keys:['polo','hoodie','pants','shirt','jacket','ropa','clothes','clothing','sweater','coat','dress','shorts','top','blusa','pantalon','camisa','chaqueta']},
+  {e:'💄', n:'Cosméticos / Skincare',                    p:0.6, keys:['skincare','makeup','cosmetic','serum','moisturizer','foundation','mascara','lipstick','cosmetico','crema','maquillaje','perfume','fragrance','cologne','fragancia']},
+  {e:'👟', n:'Zapatillas / Zapatos',                     p:1.4, keys:['nike','adidas','shoes','jordan','zapatillas','zapatos','sneakers','boots','yeezy','vans','converse','puma','new balance']},
+  {e:'📱', n:'Celular / Smartphone',                     p:0.4, keys:['iphone','samsung','pixel','phone','celular','smartphone','telefono','galaxy','motorola','xiaomi']},
+  {e:'💊', n:'Suplementos / Vitaminas',                  p:0.8, keys:['whey','protein','vitamins','supplement','suplemento','proteina','creatine','preworkout','omega','collagen','colageno','vitamina']},
+  {e:'💻', n:'Laptop / Notebook',                        p:2.7, keys:['macbook','laptop','notebook','computadora','portátil','portatil','lenovo','dell','hp','asus','acer']},
+  {e:'🎧', n:'Audífonos / Earbuds',                      p:0.4, keys:['airpods','headset','earbuds','audifonos','headphones','auriculares','beats','sony','bose']},
+  {e:'👜', n:'Mochila / Bolso',                          p:1.4, keys:['backpack','bag','mochila','bolso','bolsa','tote','purse','handbag','luggage','maleta']},
+  {e:'🧸', n:'Figuras / Juguetes / LEGO',                p:0.8, keys:['funko','lego','toy','juguete','figura','action figure','muñeco','playset']},
+  {e:'🎮', n:'Consola / Videojuego',                     p:1.0, keys:['ps5','xbox','switch','game','console','videojuego','playstation','nintendo','gaming']},
+  {e:'⌚', n:'Smartwatch / Reloj inteligente',            p:0.4, keys:['apple watch','galaxy watch','smartwatch','reloj','watch','fitbit','garmin']},
+  {e:'⌨️', n:'Teclado / Mouse',                          p:0.8, keys:['keyboard','teclado','mouse','logitech','razer','corsair','mechanical']},
+  {e:'💻', n:'Partes de PC (GPU, SSD, CPU)',             p:0.9, keys:['gpu','ssd','cpu','rtx','ram','motherboard','tarjeta','procesador','disco']},
+  {e:'📺', n:'Monitor / Display',                        p:2.3, keys:['monitor','display','pantalla','screen','lg','samsung monitor']},
+  {e:'📱', n:'Tablet / iPad',                            p:1.1, keys:['ipad','tablet']},
+  {e:'🚗', n:'Accesorios de Auto',                       p:1.9, keys:['brake','hose','filter','auto','car','vehiculo','repuesto','freno','filtro']},
+  {e:'🚁', n:'Dron',                                     p:0.8, keys:['dji','drone','dron']},
+  {e:'📷', n:'Cámara / GoPro',                           p:0.5, keys:['canon','sony camera','gopro','camara','camera','nikon','fujifilm']},
+];
 
-// ─────────────────────────────────────────────────────────────────
-// UTILS
-// ─────────────────────────────────────────────────────────────────
-const $ = (id) => document.getElementById(id);
-const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
-
-const round2 = (n) => Math.round(n * 100) / 100;
-const round1 = (n) => Math.round(n * 10) / 10;
-const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-
-const formatUSD = (n) => '$' + (Math.abs(n)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-const formatPEN = (n) => 'S/ ' + (Math.abs(n) * state.tc).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-const escapeHTML = (s) => String(s ?? '')
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
-  .replace(/'/g, '&#39;');
-
-const getRawValue = (id) => {
-  const el = $(id);
-  return el ? el.value.trim() : '';
-};
-
-const setFieldError = (groupId, msg) => {
-  const grp = $('grp-' + groupId);
-  const err = $('err-' + groupId);
-  if (!grp) return;
-  if (msg) {
-    grp.classList.add('has-error');
-    if (err) err.textContent = msg;
-  } else {
-    grp.classList.remove('has-error');
-    if (err) err.textContent = '';
-  }
-};
-
-// LocalStorage helpers con manejo seguro
-const storage = {
-  get(key, fallback = null) {
-    try {
-      const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    } catch (e) {
-      console.warn('Storage read failed:', e);
-      return fallback;
+// Detectar categoría y peso sugerido según palabras clave en la descripción
+// Usa word boundaries (\b) para evitar falsos positivos por substrings
+// Ej: "laptop" no debe matchear con "top" (ropa), "coat" no con "overcoat"
+function detectarPeso(desc){
+  if(!desc||desc.length<2)return null;
+  for(const cat of PESOS){
+    for(const k of cat.keys){
+      const re=new RegExp('\\b'+k+'\\b','i');
+      if(re.test(desc))return{peso:cat.p,nombre:cat.n,emoji:cat.e};
     }
-  },
-  set(key, val) {
-    try {
-      localStorage.setItem(key, JSON.stringify(val));
-      return true;
-    } catch (e) {
-      console.warn('Storage write failed:', e);
-      return false;
-    }
-  },
-  remove(key) {
-    try { localStorage.removeItem(key); return true; }
-    catch (e) { return false; }
   }
-};
-
-// ─────────────────────────────────────────────────────────────────
-// TIPO DE CAMBIO
-// ─────────────────────────────────────────────────────────────────
-async function fetchTipoCambio() {
-  for (const url of CONFIG.TC_APIS) {
-    try {
-      const ctrl = new AbortController();
-      const timeout = setTimeout(() => ctrl.abort(), 5000);
-      const res = await fetch(url, { signal: ctrl.signal });
-      clearTimeout(timeout);
-      if (!res.ok) continue;
-      const data = await res.json();
-      const pen = data?.rates?.PEN;
-      if (pen && typeof pen === 'number' && pen > 3 && pen < 5) {
-        state.tc = round2(pen);
-        state.tcSrc = 'live';
-        break;
-      }
-    } catch (e) { /* continúa con la siguiente API */ }
-  }
-  renderTcPill();
-  // Recalcular para que los soles se actualicen
-  if (state.lastResult) calculate();
+  return null;
 }
 
-function renderTcPill() {
-  $('tc-disp').textContent = 'S/ ' + state.tc.toFixed(2);
-  $('tc-src').textContent = state.tcSrc === 'live' ? 'hoy' : 'ref.';
-  $('tc-dot').className = 'tc-dot' + (state.tcSrc === 'fallback' ? ' fb' : '');
+// ─── STATE ────────────────────────────────────────────────────────────
+const S = {tc:CFG.TC_FB, itemSeq:0, last:null, asTimer:null, modalCb:null};
+
+// ─── UTILS ────────────────────────────────────────────────────────────
+const $=id=>document.getElementById(id);
+const $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
+const r2=n=>Math.round(n*100)/100;
+const r1=n=>Math.round(n*10)/10;
+const usd=n=>'$'+(Math.abs(n)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+const pen=n=>'S/ '+(Math.abs(n)*S.tc).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const raw=id=>{const e=$(id);return e?e.value.trim():''};
+const setErr=(gid,msg)=>{const g=$('grp-'+gid),e=$('err-'+gid);if(!g)return;msg?(g.classList.add('err'),e&&(e.textContent=msg)):(g.classList.remove('err'),e&&(e.textContent=''))};
+const store={get:(k,fb=null)=>{try{const r=localStorage.getItem(k);return r?JSON.parse(r):fb}catch{return fb}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch{return false}},del:k=>{try{localStorage.removeItem(k);return true}catch{return false}}};
+
+// ─── TIPO DE CAMBIO ───────────────────────────────────────────────────
+async function fetchTC(){
+  for(const url of CFG.TC_APIS){
+    try{
+      const ctrl=new AbortController();
+      const t=setTimeout(()=>ctrl.abort(),5000);
+      const res=await fetch(url,{signal:ctrl.signal});
+      clearTimeout(t);
+      if(!res.ok)continue;
+      const d=await res.json();
+      const v=d?.rates?.PEN;
+      if(v&&v>3&&v<6){S.tc=r2(v);break;}
+    }catch{}
+  }
+  $('tc-disp').textContent='S/ '+S.tc.toFixed(2);
+  if(S.last)calcular();
 }
 
-// ─────────────────────────────────────────────────────────────────
-// SERVICIOS ADICIONALES (notas informativas)
-// ─────────────────────────────────────────────────────────────────
-function renderSvcs() {
-  $('svc-grid').innerHTML = SVCS.map(s => `
-    <div class="svc-note">
-      <span class="svc-note-name">
-        ${escapeHTML(s.name)}
-        <span class="tip" tabindex="0" aria-label="Información sobre ${escapeHTML(s.name)}">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="tip-box">${escapeHTML(s.tip)}</span>
+// ─── ESTIMADOR DE PESO ────────────────────────────────────────────────
+function renderEstimador(containerId,targetInputId){
+  const c=$(containerId);if(!c)return;
+  c.innerHTML=PESOS.map(p=>`
+    <div class="est-item" data-p="${p.p}" data-t="${targetInputId}" role="button" tabindex="0" aria-label="${esc(p.n)} aprox. ${p.p} kg">
+      <span>${p.e} ${esc(p.n)}</span><span class="est-w">${p.p} kg</span>
+    </div>`).join('');
+  c.querySelectorAll('.est-item').forEach(el=>{
+    const apply=()=>{
+      const t=$(el.dataset.t);
+      if(t){t.value=el.dataset.p;t.dispatchEvent(new Event('input',{bubbles:true}));}
+      c.style.display='none';
+      const iconId=containerId==='est-single'?'est-s-icon':'est-m-icon';
+      const icon=$(iconId);if(icon)icon.style.transform='rotate(0deg)';
+    };
+    el.addEventListener('click',apply);
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();apply();}});
+  });
+}
+function aplicarPesoSugerido(p){
+  const inp=$('peso');if(!inp)return;
+  inp.value=p;
+  inp.dispatchEvent(new Event('input',{bubbles:true}));
+  const hint=$('peso-hint');if(hint)hint.style.display='none';
+}
+function toggleEst(containerId){
+  const c=$(containerId);if(!c)return;
+  const open=c.style.display==='none'||!c.style.display;
+  c.style.display=open?'grid':'none';
+  const iconId=containerId==='est-single'?'est-s-icon':'est-m-icon';
+  const icon=$(iconId);if(icon)icon.style.transform=open?'rotate(180deg)':'rotate(0deg)';
+}
+
+
+// ─── SERVICIOS ────────────────────────────────────────────────────────
+function renderSvcs(){
+  $('svc-grid').innerHTML=SVCS.map(s=>`
+    <div class="svcn">
+      <span class="svcnm">${esc(s.name)}
+        <span class="tip" tabindex="0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="tb">${esc(s.tip)}</span>
         </span>
       </span>
-      <span class="svc-note-price">${escapeHTML(s.price)}</span>
-    </div>
-  `).join('');
+      <span class="svcpr">${esc(s.price)}</span>
+    </div>`).join('');
 }
 
-// ─────────────────────────────────────────────────────────────────
-// ITEMS MÚLTIPLES
-// ─────────────────────────────────────────────────────────────────
-function addItem(desc = '', val = '') {
-  state.itemSeq++;
-  const id = 'itm-' + state.itemSeq;
-  const seq = state.itemSeq;
-  const div = document.createElement('div');
-  div.className = 'item-row';
-  div.id = id;
-  div.setAttribute('role', 'listitem');
-  div.innerHTML = `
-    <input type="text" placeholder="Producto ${seq}" value="${escapeHTML(desc)}" aria-label="Descripción producto ${seq}">
-    <input type="number" min="0.01" step="0.01" placeholder="0.00" value="${escapeHTML(val)}" style="text-align:right" aria-label="Valor producto ${seq}" inputmode="decimal">
-    <button type="button" class="btn-rm" aria-label="Eliminar producto ${seq}" data-rm="${id}">
-      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-    </button>
-  `;
+// ─── ITEMS ────────────────────────────────────────────────────────────
+function addItem(desc='',val=''){
+  S.itemSeq++;
+  const id='itm-'+S.itemSeq,n=S.itemSeq;
+  const div=document.createElement('div');
+  div.className='irow';div.id=id;div.setAttribute('role','listitem');
+  div.innerHTML=`
+    <input type="text" placeholder="Producto ${n}" value="${esc(desc)}" aria-label="Nombre producto ${n}">
+    <input type="number" min="0.01" step="0.01" placeholder="0.00" value="${esc(val)}"
+      style="text-align:right" aria-label="Valor producto ${n}" inputmode="decimal">
+    <button type="button" class="brm" aria-label="Eliminar producto ${n}">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+    </button>`;
   $('items-list').appendChild(div);
-  // Listeners
-  $$('input', div).forEach(inp => inp.addEventListener('input', calculate));
-  div.querySelector('.btn-rm').addEventListener('click', () => removeItem(id));
-  calculate();
+  $$('input',div).forEach(i=>i.addEventListener('input',calcular));
+  div.querySelector('.brm').addEventListener('click',()=>{div.remove();calcular();});
+  calcular();
+}
+const getItems=()=>$$('#items-list .irow').map(r=>{
+  const ins=r.querySelectorAll('input');
+  return{desc:ins[0]?.value.trim()||'',val:parseFloat(ins[1]?.value)||0};
+});
+
+// ─── DELIVERY ─────────────────────────────────────────────────────────
+function getDelivery(){
+  if(!$('tog-delivery').checked)return{val:0,label:'',active:false};
+  const sel=document.querySelector('input[name=delivery]:checked')?.value||'almacen';
+  if(sel==='almacen') return{val:0,label:'🏬 Recojo en almacén Shipper Lima — gratis',active:true};
+  if(sel==='shalom')  return{val:0,label:'🚚 Shalom — contraentrega (todo Perú)',active:true};
+  if(sel==='olva')    return{val:4,label:'📦 Olva Courier — todo Perú, desde $4',active:true};
+  return{val:4,label:'⚡ Delivery express — solo Lima, desde $4',active:true};
 }
 
-function removeItem(id) {
-  const el = $(id);
-  if (el) el.remove();
-  calculate();
+// ─── CÓDIGO DE DESCUENTO ──────────────────────────────────────────────
+function resolveCode(raw){
+  const c=raw.trim().toUpperCase();
+  if(!c)return null;
+  // Código fijo
+  if(DCODES[c])return{...DCODES[c],code:c};
+  // Código variable Prov3: NNSHIPRnn (ej: 75SHIPR75)
+  const m=c.match(PROV3_RE);
+  if(m){
+    const pr=parseInt(m[1],10)/10;
+    const ar=parseInt(m[2],10)/10;
+    if(pr>=1&&pr<=20&&ar>=1&&ar<=20)
+      return{type:'fixed',prRate:pr,arRate:ar,label:`⚡ ShippiGODS — tarifa fija $${pr.toFixed(2)}/kg · $${ar.toFixed(2)} desaduanaje`,code:c};
+  }
+  return{type:'invalid'};
 }
 
-function getItemsFromDOM() {
-  return $$('#items-list .item-row').map(row => {
-    const inputs = row.querySelectorAll('input');
-    return {
-      desc: inputs[0]?.value?.trim() || '',
-      val: parseFloat(inputs[1]?.value) || 0
-    };
-  });
+function applyCodeUI(){
+  if(!$('tog-discount').checked){
+    const ds=$('dsts');ds.style.display='none';
+    return{dp:0,da:0,prRate:null,arRate:null};
+  }
+  const code=raw('discount-code');
+  const ds=$('dsts');
+  if(!code){ds.style.display='none';return{dp:0,da:0,prRate:null,arRate:null};}
+  const r=resolveCode(code);
+  ds.style.display='block';
+  if(!r||r.type==='invalid'){
+    ds.className='dsts ko';ds.textContent='✕ Código no válido';
+    return{dp:0,da:0,prRate:null,arRate:null};
+  }
+  ds.className='dsts ok';
+  if(r.type==='pct'){
+    ds.innerHTML=`<strong>${esc(r.label)}</strong> — ${r.dp}% dto. envío · ${r.da}% dto. desaduanaje<br><span style="font-size:11px;opacity:.85">${esc(r.desc||'')}</span>`;
+    return{dp:r.dp,da:r.da,prRate:null,arRate:null};
+  }
+  ds.innerHTML=`<strong>⚡ ShippiGODS</strong> — Tarifa fija $${r.prRate.toFixed(2)}/kg · $${r.arRate.toFixed(2)} desaduanaje<br><span style="font-size:11px;opacity:.85">Nivel legendario desbloqueado 🛐 Los elegidos del Olimpo Shipper. Nadie sabe exactamente cómo llegaron a tener un descuento personalizado… pero el sistema los respeta 😎</span>`;
+  return{dp:0,da:0,prRate:r.prRate,arRate:r.arRate};
 }
 
-// ─────────────────────────────────────────────────────────────────
-// DELIVERY
-// ─────────────────────────────────────────────────────────────────
-function getDeliveryInfo() {
-  if (!$('tog-delivery').checked) return { val: 0, label: '', active: false };
-  const sel = document.querySelector('input[name=delivery]:checked')?.value || 'shalom';
-  if (sel === 'shalom')  return { val: 0, label: 'Shalom — contraentrega (sin costo adicional)', active: true };
-  if (sel === 'olva')    return { val: 4, label: 'Olva Courier — desde $4', active: true };
-  if (sel === 'express') return { val: 4, label: 'Delivery express Lima — desde $4', active: true };
-  return { val: 0, label: '', active: false };
+// ─── DESADUANAJE ──────────────────────────────────────────────────────
+function tarifaAduana(v){
+  if(v<=0)  return{b:0, l:'$0'};
+  if(v<=50) return{b:4, l:'$0–$50'};
+  if(v<=100)return{b:7, l:'$50–$100'};
+  if(v<=200)return{b:11,l:'$100–$200'};
+  return         {b:11,l:'$201–$2,000'}; // solo para productos individuales >$200
 }
 
-// ─────────────────────────────────────────────────────────────────
-// LÓGICA DE DESADUANAJE
-// ─────────────────────────────────────────────────────────────────
-function tarifaDesaduanaje(v) {
-  if (v <= 0)    return { base: 0,  label: '$0' };
-  if (v <= 50)   return { base: 4,  label: '$0–$50' };
-  if (v <= 100)  return { base: 7,  label: '$50–$100' };
-  if (v <= 200)  return { base: 11, label: '$100–$200' };
-  return            { base: 11, label: '$201–$2,000' }; // con SUNAT aparte
+// calcAduMonto para producto individual (>$200 → $11 plano, SUNAT se cobra aparte)
+function calcAduSingle(val,prefix){
+  const t=tarifaAduana(val);
+  return{lines:[{l:`${prefix} (${t.l})`,b:t.b}],tot:t.b};
 }
 
-/**
- * Calcula líneas de desaduanaje para un monto.
- * Si el monto > $200, se divide en: tramo de $200 + excedente.
- * @returns {{lines: Array, total: number}}
- */
-function calcDesaduanajeMonto(monto, prefix) {
-  const lines = [];
-  let total = 0;
-  if (monto <= 0) return { lines, total };
-  if (monto <= 200) {
-    const t = tarifaDesaduanaje(monto);
-    lines.push({ label: `${prefix} (${t.label})`, tarifa: t.base });
-    total = t.base;
+// calcAduMonto para SUMA de productos pequeños (todos ≤$200 c/u)
+// Si la suma supera $200 → se divide: tramo hasta $200 + excedente con su propio tramo
+function calcAduSuma(suma,prefix){
+  const lines=[];let tot=0;
+  if(suma<=0)return{lines,tot};
+  if(suma<=200){
+    const t=tarifaAduana(suma);
+    lines.push({l:`${prefix} (${t.l})`,b:t.b});
+    tot=t.b;
   } else {
-    // Tramo hasta $200
-    const t1 = tarifaDesaduanaje(200);
-    lines.push({ label: `${prefix} hasta $200 (${t1.label})`, tarifa: t1.base });
-    total = t1.base;
-    // Excedente
-    const exc = round2(monto - 200);
-    const t2 = tarifaDesaduanaje(exc);
-    lines.push({ label: `Excedente ${formatUSD(exc)} (${t2.label})`, tarifa: t2.base });
-    total = round2(total + t2.base);
+    // Primer tramo: hasta $200 → $11
+    const t1=tarifaAduana(200);
+    lines.push({l:`${prefix} hasta $200 (${t1.l})`,b:t1.b});
+    tot=t1.b;
+    // Excedente: lo que sobra de $200 → cae en su propio tramo
+    const exc=r2(suma-200);
+    const t2=tarifaAduana(exc);
+    lines.push({l:`Excedente ${usd(exc)} (${t2.l})`,b:t2.b});
+    tot=r2(tot+t2.b);
   }
-  return { lines, total };
+  return{lines,tot};
+}
+function calcSUNAT(v){
+  const adval=r2(v*0.04),base=v+adval,igv=r2(base*0.16),ipm=r2(base*0.02);
+  return{adval,igv,ipm,sub:r2(adval+igv+ipm)};
 }
 
-function calcImpuestosSUNAT(valor) {
-  const adval = round2(valor * 0.04);
-  const baseIgv = valor + adval;
-  const igv = round2(baseIgv * 0.16);
-  const ipm = round2(baseIgv * 0.02);
-  const sub = round2(adval + igv + ipm);
-  return { adval, igv, ipm, sub };
+// ─── VALIDACIÓN ───────────────────────────────────────────────────────
+function validate(isMulti){
+  let hasErr=false,cif=0,peso=0,items=[];
+
+  // Descripción obligatoria
+  const rdesc=raw('desc-cot');
+  if(!rdesc){setErr('desc','Describe qué estás importando');hasErr=true;}
+  else{setErr('desc','');}
+
+  if(!isMulti){
+    const rv=raw('valor'),rp=raw('peso');
+    if(!rdesc&&!rv&&!rp){['desc','valor','peso'].forEach(id=>setErr(id,''));return{empty:true};}
+    const cv=parseFloat(rv);
+    if(!rv){setErr('valor','Ingresa el valor');hasErr=true;}
+    else if(isNaN(cv)||cv<=0){setErr('valor','Debe ser mayor a $0');hasErr=true;}
+    else if(cv>CFG.CMAX){setErr('valor',`Máximo $${CFG.CMAX}`);hasErr=true;cif=cv;items=[{desc:'',val:cv}];}
+    else{setErr('valor','');cif=cv;items=[{desc:'',val:cv}];}
+    const cp=parseFloat(rp);
+    if(!rp){setErr('peso','Ingresa el peso');hasErr=true;}
+    else if(isNaN(cp)||cp<0.1){setErr('peso','Mínimo 0.1 kg');hasErr=true;}
+    else{setErr('peso','');peso=cp;}
+  } else {
+    items=getItems().filter(i=>i.val>0);
+    cif=r2(items.reduce((a,i)=>a+i.val,0));
+    const rp=raw('peso-m');const cp=parseFloat(rp);
+    if(!rdesc&&!items.length&&!rp){setErr('peso-m','');return{empty:true};}
+    if(!items.length)return{empty:true};
+    if(!rp){setErr('peso-m','Ingresa el peso total');hasErr=true;}
+    else if(isNaN(cp)||cp<0.1){setErr('peso-m','Mínimo 0.1 kg');hasErr=true;}
+    else{setErr('peso-m','');peso=cp;}
+  }
+  return{hasErr,cif,peso,items};
 }
 
-// ─────────────────────────────────────────────────────────────────
-// VALIDACIÓN
-// ─────────────────────────────────────────────────────────────────
-function validateInputs(isMulti) {
-  let hasError = false;
-  let cif = 0, peso = 0;
-  let items = [];
+// ─── CALC PRINCIPAL ───────────────────────────────────────────────────
+function calcular(){
+  const el=$('resultado');
+  const isMulti=$('tog-multi').checked;
+  const isConcierge=$('tog-concierge').checked;
+  const delivery=getDelivery();
+  const disc=applyCodeUI();
 
-  if (!isMulti) {
-    const rv = getRawValue('valor');
-    const rp = getRawValue('peso');
+  const v=validate(isMulti);
+  if(v.empty||v.hasErr){el.innerHTML='';S.last=null;return;}
 
-    if (rv === '' && rp === '') {
-      // Vacío total: limpiar errores y salir
-      ['valor', 'peso', 'dp', 'da'].forEach(id => setFieldError(id, ''));
-      return { empty: true };
-    }
+  let{cif,peso,items}=v;
+  const{dp,da,prRate,arRate}=disc;
 
-    const cv = parseFloat(rv);
-    if (rv === '') {
-      setFieldError('valor', 'Ingresa el valor');
-      hasError = true;
-    } else if (isNaN(cv) || cv <= 0) {
-      setFieldError('valor', 'Debe ser mayor a $0');
-      hasError = true;
-    } else if (cv > CONFIG.COURIER_MAX) {
-      setFieldError('valor', `Máximo $${CONFIG.COURIER_MAX.toLocaleString()}`);
-      hasError = true;
-      cif = cv;
-      items = [{ desc: '', val: cv }];
-    } else {
-      setFieldError('valor', '');
-      cif = cv;
-      items = [{ desc: '', val: cv }];
-    }
+  if(cif>CFG.CMAX){
+    el.innerHTML=`<div class="card"><span class="badge bg-r"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Supera límite courier</span><p style="font-size:13px;color:var(--text2);margin-top:10px;line-height:1.5">Valores mayores a US$${CFG.CMAX.toLocaleString()} requieren importación formal con agente de aduanas.</p></div>`;
+    S.last=null;return;
+  }
 
-    const cp = parseFloat(rp);
-    if (rp === '') {
-      setFieldError('peso', 'Ingresa el peso');
-      hasError = true;
-    } else if (isNaN(cp) || cp < 0.1) {
-      setFieldError('peso', 'Mínimo 0.1 kg');
-      hasError = true;
-    } else {
-      setFieldError('peso', '');
-      peso = cp;
-    }
+  peso=r1(peso);
+
+  // Desaduanaje
+  let aduLines=[],aduBase=0;
+  if(!isMulti||items.length<=1){
+    // Producto único: si supera $200 → $11 plano + SUNAT aparte
+    const val=items[0]?.val||0;
+    const res=calcAduSingle(val,'Desaduanaje');
+    aduLines=res.lines;aduBase=res.tot;
   } else {
-    items = getItemsFromDOM().filter(i => i.val > 0);
-    cif = round2(items.reduce((a, i) => a + i.val, 0));
-
-    const rp = getRawValue('peso-m');
-    const cp = parseFloat(rp);
-
-    if (items.length === 0 && rp === '') {
-      setFieldError('peso-m', '');
-      return { empty: true };
-    }
-
-    if (items.length === 0) {
-      setFieldError('peso-m', '');
-      return { empty: true };
-    }
-
-    if (cif > CONFIG.COURIER_MAX) {
-      // Marcar el último item con valor como error (no hay un campo único)
-      hasError = true;
-    }
-
-    if (rp === '') {
-      setFieldError('peso-m', 'Ingresa el peso total');
-      hasError = true;
-    } else if (isNaN(cp) || cp < 0.1) {
-      setFieldError('peso-m', 'Mínimo 0.1 kg');
-      hasError = true;
-    } else {
-      setFieldError('peso-m', '');
-      peso = cp;
-    }
-  }
-
-  // Descuentos
-  const rdp = getRawValue('desc-peso');
-  const rda = getRawValue('desc-aduana');
-  let dp = parseFloat(rdp) || 0;
-  let da = parseFloat(rda) || 0;
-
-  if (rdp !== '' && (isNaN(dp) || dp < 0)) {
-    setFieldError('dp', 'No puede ser negativo');
-    hasError = true; dp = 0;
-  } else if (dp > 100) {
-    setFieldError('dp', 'Máximo 100%');
-    hasError = true; dp = 100;
-  } else {
-    setFieldError('dp', '');
-  }
-
-  if (rda !== '' && (isNaN(da) || da < 0)) {
-    setFieldError('da', 'No puede ser negativo');
-    hasError = true; da = 0;
-  } else if (da > 100) {
-    setFieldError('da', 'Máximo 100%');
-    hasError = true; da = 100;
-  } else {
-    setFieldError('da', '');
-  }
-
-  return { hasError, cif, peso, items, dp, da };
-}
-
-// ─────────────────────────────────────────────────────────────────
-// CÁLCULO PRINCIPAL
-// ─────────────────────────────────────────────────────────────────
-function calculate() {
-  const el = $('resultado');
-  const isMulti = $('tog-multi').checked;
-  const isConcierge = $('tog-concierge').checked;
-  const delivery = getDeliveryInfo();
-
-  const v = validateInputs(isMulti);
-
-  if (v.empty || v.hasError) {
-    el.innerHTML = '';
-    state.lastResult = null;
-    return;
-  }
-
-  let { cif, peso, items, dp, da } = v;
-
-  // Si excede el límite courier
-  if (cif > CONFIG.COURIER_MAX) {
-    el.innerHTML = `<div class="card">
-      <div style="margin-bottom:10px"><span class="badge bg-red">
-        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Supera límite courier
-      </span></div>
-      <p style="font-size:13px;color:var(--text2);line-height:1.5">Valores mayores a US$ ${CONFIG.COURIER_MAX.toLocaleString()} requieren importación formal con agente de aduanas. No es posible cotizar por este medio.</p>
-    </div>`;
-    state.lastResult = null;
-    return;
-  }
-
-  peso = round1(peso);
-
-  // ── Desaduanaje ────────────────────────────────────────────
-  let aduanaDesglose = [];
-  let totalAduanaBase = 0;
-  let tribDesglose = [];
-  let totalTributos = 0;
-
-  if (!isMulti || items.length <= 1) {
-    const r = calcDesaduanajeMonto(items[0]?.val || 0, 'Desaduanaje');
-    aduanaDesglose = r.lines;
-    totalAduanaBase = r.total;
-  } else {
-    const grandes = items.filter(i => i.val > CONFIG.SUNAT_THRESHOLD);
-    const chicos = items.filter(i => i.val > 0 && i.val <= CONFIG.SUNAT_THRESHOLD);
-
-    // Productos > $200 → solos con SUNAT
-    grandes.forEach(item => {
-      const t = tarifaDesaduanaje(item.val);
-      const lbl = (item.desc || 'Producto') + ' ' + formatUSD(item.val);
-      aduanaDesglose.push({ label: `Desaduanaje ${lbl} (${t.label})`, tarifa: t.base });
-      totalAduanaBase = round2(totalAduanaBase + t.base);
+    // big = productos individuales > $200 → cada uno paga $11 + SUNAT individualmente
+    const big=items.filter(i=>i.val>CFG.SUNAT_TH);
+    // sml = productos ≤ $200 c/u → se suman y si la suma pasa $200 se divide en excedente
+    const sml=items.filter(i=>i.val>0&&i.val<=CFG.SUNAT_TH);
+    big.forEach(it=>{
+      const res=calcAduSingle(it.val,`Desaduanaje ${it.desc||'Producto'} ${usd(it.val)}`);
+      aduLines.push(...res.lines);aduBase=r2(aduBase+res.tot);
     });
-
-    // Productos ≤ $200 → suma + posible división por excedente
-    if (chicos.length > 0) {
-      const sumaChicos = round2(chicos.reduce((a, i) => a + i.val, 0));
-      const prefijo = chicos.length > 1
-        ? `Desaduanaje productos (${formatUSD(sumaChicos)})`
-        : 'Desaduanaje';
-      const r = calcDesaduanajeMonto(sumaChicos, prefijo);
-      aduanaDesglose.push(...r.lines);
-      totalAduanaBase = round2(totalAduanaBase + r.total);
+    if(sml.length){
+      const sm=r2(sml.reduce((a,i)=>a+i.val,0));
+      const pref=sml.length>1?`Desaduanaje productos (${usd(sm)})`:'Desaduanaje';
+      const res=calcAduSuma(sm,pref);
+      aduLines.push(...res.lines);aduBase=r2(aduBase+res.tot);
     }
   }
 
-  const aduDescMonto = round2(totalAduanaBase * (da / 100));
-  const totalAduana = round2(totalAduanaBase - aduDescMonto);
+  // Con tarifa fija Prov3, reemplazamos desaduanaje
+  let aduDescM=0,totalAdu=aduBase;
+  if(arRate!==null){
+    aduLines=[{l:'Desaduanaje (tarifa especial)',b:arRate}];
+    aduBase=arRate;totalAdu=arRate;
+  } else if(da>0){
+    aduDescM=r2(aduBase*(da/100));totalAdu=r2(aduBase-aduDescM);
+  }
 
-  // ── Impuestos SUNAT ────────────────────────────────────────
-  items.forEach(item => {
-    if (item.val > CONFIG.SUNAT_THRESHOLD) {
-      const imp = calcImpuestosSUNAT(item.val);
-      tribDesglose.push({
-        desc: item.desc || 'Producto',
-        val: item.val,
-        ...imp
-      });
-      totalTributos = round2(totalTributos + imp.sub);
+  // SUNAT
+  let tribLines=[],totalTrib=0;
+  items.forEach(it=>{
+    if(it.val>CFG.SUNAT_TH){
+      const t=calcSUNAT(it.val);
+      tribLines.push({desc:it.desc||'Producto',val:it.val,...t});
+      totalTrib=r2(totalTrib+t.sub);
     }
   });
-  const hayImpuestos = tribDesglose.length > 0;
+  const hayImp=tribLines.length>0;
 
-  // ── Envío ──────────────────────────────────────────────────
-  const envioBase = round2(peso * CONFIG.PESO_RATE);
-  const envioDescMonto = round2(envioBase * (dp / 100));
-  const envioFinal = round2(envioBase - envioDescMonto);
-
-  // ── Concierge ──────────────────────────────────────────────
-  const conciergeVal = isConcierge
-    ? round2(CONFIG.CONCIERGE_FIJO + cif * CONFIG.CONCIERGE_PCT)
-    : 0;
-
-  // ── Totales ────────────────────────────────────────────────
-  const totalServicios = round2(envioFinal + totalAduana + delivery.val + conciergeVal);
-  const totalGeneral = round2(totalServicios + totalTributos);
-
-  // Badge de estado
-  let badge;
-  if (hayImpuestos) {
-    badge = `<span class="badge bg-amber">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16h12V2z"/><polyline points="14 2 14 8 20 8"/></svg>
-      Afecto a tributos
-    </span>`;
+  // Envío
+  let envBase,envDescM=0,envFin;
+  if(prRate!==null){
+    envBase=r2(peso*prRate);envFin=envBase;
   } else {
-    badge = `<span class="badge bg-green">
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      Sin impuestos SUNAT
-    </span>`;
+    envBase=r2(peso*CFG.PR);
+    envDescM=r2(envBase*(dp/100));
+    envFin=r2(envBase-envDescM);
   }
 
-  // Datos para mensaje y guardado
-  const cliente = getRawValue('cliente');
-  const descCot = getRawValue('desc-cot') ||
-    (isMulti ? items.map(i => i.desc).filter(Boolean).join(', ') : '');
+  // Concierge: valor + comisión
+  const concComis=isConcierge?r2(CFG.CF+cif*CFG.CP):0;
+  const concTotal=isConcierge?r2(cif+concComis):0;
 
-  const payload = {
-    cliente, descCot, items, isMulti, totalValor: cif,
-    pesoFinal: peso, envioBase, envioDescMonto, dp, envioFinal,
-    aduanaDesglose, totalAduanaBase, aduDescMonto, da, totalAduana,
-    delivery, conciergeVal, isConcierge,
-    tribDesglose, totalTributos, hayImpuestos,
-    totalServicios, totalGeneral
-  };
+  // Totales
+  const totalServ=r2(envFin+totalAdu+delivery.val+concComis);
+  const totalGen=r2(totalServ+totalTrib);
 
-  const mensaje = buildMensajeWA(payload);
+  const badge=hayImp
+    ?`<span class="badge bg-a"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16h12V2z"/><polyline points="14 2 14 8 20 8"/></svg>Afecto a tributos</span>`
+    :`<span class="badge bg-g"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sin impuestos SUNAT</span>`;
 
-  // ── Render ─────────────────────────────────────────────────
-  el.innerHTML = renderResultado(payload, badge, mensaje);
+  const cliente=raw('cliente'),descCot=raw('desc-cot')||(isMulti?items.map(i=>i.desc).filter(Boolean).join(', '):'');
+  const discCode=$('tog-discount').checked?raw('discount-code'):'';
 
-  // Guardar último resultado
-  state.lastResult = { ...payload, mensaje, timestamp: Date.now() };
+  const payload={cliente,descCot,items,isMulti,cif,peso,envBase,envDescM,dp,envFin,prRate,aduLines,aduBase,aduDescM,da,totalAdu,arRate,delivery,concComis,concTotal,isConcierge,tribLines,totalTrib,hayImp,totalServ,totalGen,discCode};
 
-  // Bind eventos del bloque de mensaje
-  const btnWA = $('btn-wa');
-  const btnCopy = $('btn-copy');
-  const btnSave = $('btn-save');
-  if (btnWA) btnWA.addEventListener('click', enviarPorWhatsApp);
-  if (btnCopy) btnCopy.addEventListener('click', copiarMensaje);
-  if (btnSave) btnSave.addEventListener('click', guardarCotizacion);
+  const totalSinDesc=r2(payload.envBase+payload.aduBase+(payload.delivery?.val||0)+(payload.concComis||0));
+  const ahorroTotal=r2(totalSinDesc-payload.totalServ);
+  const ahorroCard=ahorroTotal>0?`
+    <div class="sc" style="background:var(--green-light);border:1px solid #b8e0c4">
+      <p class="sl2" style="color:var(--green)">🔥 Tu ahorro</p>
+      <p class="sv grn">− ${usd(ahorroTotal)}</p>
+      <p class="ssub" style="color:var(--green)">precio sin desc. ${usd(totalSinDesc)}</p>
+    </div>`:'';
+
+  el.innerHTML=renderResultado(payload,badge,ahorroCard);
+  const msg=buildMsg(payload);
+  S.last={...payload,msg,ts:Date.now()};
+
+  // Servicio viajero contextual (solo si hay productos >$200)
+  const viajeroEl=$('viajero-bloque');
+  if(viajeroEl){
+    if(payload.hayImp){
+      const prods=payload.tribLines.map(t=>`${t.desc&&t.desc!=='Producto'?t.desc:payload.descCot||'tu producto'} (${usd(t.val)})`).join(', ');
+      const waMsg=encodeURIComponent(`Hola, cotice ${prods} y quiero consultar sobre el servicio viajero.`);
+      viajeroEl.style.display='block';
+      viajeroEl.innerHTML=`
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div>
+            <p style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px">✈️ ¿Sabías que tienes otra opción?</p>
+            <p style="font-size:12px;color:var(--text2);line-height:1.5">Para <strong>${prods}</strong>, ofrecemos <strong>Servicio Viajero</strong> que puede reducir o eliminar los impuestos SUNAT. Consúltanos sin compromiso.</p>
+          </div>
+          <a href="https://wa.me/${CFG.WA}?text=${waMsg}" target="_blank" rel="noopener"
+            style="display:inline-flex;align-items:center;gap:7px;background:#25D366;color:#fff;border-radius:var(--rx);padding:9px 16px;font-size:13px;font-weight:600;text-decoration:none;flex-shrink:0;white-space:nowrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Consultar servicio viajero
+          </a>
+        </div>`;
+    } else {
+      viajeroEl.style.display='none';
+    }
+  }
+
+  // Bind botones
+  const bwa=$('btn-wa'),bcp=$('btn-cp');
+  if(bwa)bwa.onclick=()=>enviarWA();
+  if(bcp)bcp.onclick=()=>copiar();
+
+  // Auto-save
+  scheduleAutoSave();
 }
 
-// ─────────────────────────────────────────────────────────────────
-// RENDER DEL RESULTADO
-// ─────────────────────────────────────────────────────────────────
-function renderResultado(p, badge, mensaje) {
+// ─── RENDER RESULTADO ─────────────────────────────────────────────────
+function renderResultado(p,badge,ahorroCard=''){
+  const conciergeCard=p.isConcierge?`
+    <div class="sc csrj" style="border:1px solid #f0d080">
+      <p class="sl2">🛒 Pago adelantado</p>
+      <p class="sv">${usd(p.concTotal)}</p>
+      <p class="ssub" style="color:var(--amber)">producto ${usd(p.cif)} + comisión ${usd(p.concComis)}</p>
+    </div>`:''
+  ;
   return `
 <div class="card">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
     <p class="sec-label" style="margin:0">Resumen</p>${badge}
   </div>
-  <div class="sum-grid">
-    <div class="scard">
-      <p class="sl">Nuestros servicios</p>
-      <p class="sv">${formatUSD(p.totalServicios)}</p>
-      <p class="sv-sub">${formatPEN(p.totalServicios)}</p>
-    </div>
-    ${p.isConcierge ? `
-    <div class="scard csrj">
-      <p class="sl">Concierge</p>
-      <p class="sv">${formatUSD(p.conciergeVal)}</p>
-      <p class="sv-sub">${formatPEN(p.conciergeVal)}</p>
-    </div>` : ''}
-    <div class="scard">
-      <p class="sl">Impuestos SUNAT</p>
-      <p class="sv ${p.hayImpuestos ? 'brand' : 'green'}">${formatUSD(p.totalTributos)}</p>
-      <p class="sv-sub">${p.hayImpuestos ? formatPEN(p.totalTributos) : 'sin tributos'}</p>
-    </div>
-    <div class="scard feat">
-      <p class="sl">Total estimado</p>
-      <p class="sv">${formatUSD(p.totalGeneral)}</p>
-      <p class="sv-sub">${formatPEN(p.totalGeneral)}</p>
-    </div>
+  <div class="sgrid">
+    <div class="sc"><p class="sl2">Cobro Shipper</p><p class="sv">${usd(p.totalServ)}</p><p class="ssub">${pen(p.totalServ)}</p></div>
+    ${conciergeCard}
+    ${ahorroCard}
+    <div class="sc ${p.hayImp?'simp':''}"><p class="sl2">Impuestos SUNAT</p><p class="sv ${p.hayImp?'':'grn'}">${usd(p.totalTrib)}</p><p class="ssub">${p.hayImp?pen(p.totalTrib):'sin tributos'}</p></div>
+    <div class="sc feat"><p class="sl2">Total estimado</p><p class="sv">${usd(p.totalGen)}</p><p class="ssub">${pen(p.totalGen)}</p></div>
   </div>
 </div>
-
-<div class="two-col">
+<div class="twocol">
 <div class="card">
-  <p class="sec-label">Nuestros servicios</p>
-  <div class="drow"><span class="lbl">Envío — ${p.pesoFinal} kg × $${CONFIG.PESO_RATE}</span><span class="val">${formatUSD(p.envioBase)}</span></div>
-  ${p.dp > 0 ? `<div class="drow disc"><span class="lbl">Dto. envío (${p.dp}%)</span><span class="val">− ${formatUSD(p.envioDescMonto)}</span></div>` : ''}
-  ${p.aduanaDesglose.map(a => `<div class="drow"><span class="lbl">${escapeHTML(a.label)}</span><span class="val">${formatUSD(a.tarifa)}</span></div>`).join('')}
-  ${p.da > 0 ? `<div class="drow disc"><span class="lbl">Dto. desaduanaje (${p.da}%)</span><span class="val">− ${formatUSD(p.aduDescMonto)}</span></div>` : ''}
-  ${p.delivery.active ? `<div class="drow"><span class="lbl">${escapeHTML(p.delivery.label)}</span><span class="val">${p.delivery.val > 0 ? formatUSD(p.delivery.val) : '<span style="color:var(--green)">Sin costo</span>'}</span></div>` : ''}
-  ${p.isConcierge ? `<div class="drow promo"><span class="lbl">Concierge ($1 + 1% × ${formatUSD(p.totalValor)})</span><span class="val">${formatUSD(p.conciergeVal)}</span></div>` : ''}
-  <div class="divt"></div>
-  <div class="drow total"><span>Total servicios</span><span class="val">${formatUSD(p.totalServicios)}</span></div>
+  <p class="sec-label">Cobro de Shipper Perú</p>
+  ${(()=>{
+    const totalSinDesc=r2(p.envBase+p.aduBase+(p.delivery?.val||0)+(p.concComis||0));
+    const totalConDesc=p.totalServ;
+    const ahorro=r2(totalSinDesc-totalConDesc);
+    const hayDesc=ahorro>0;
+    let rows='';
+    // Envío por peso
+    rows+=`<div class="drow">
+      <span class="lb">
+        <span style="font-weight:600;color:var(--ink)">Envío internacional</span>
+        <span style="display:block;font-size:11px;color:var(--text3)">Tarifa por peso — ${p.peso} kg × ${p.prRate?'$'+p.prRate.toFixed(2):'$'+CFG.PR}/kg</span>
+      </span>
+      <span class="vl">${hayDesc?`<span style="text-decoration:line-through;color:var(--text3);font-size:11px">${usd(p.envBase)}</span> `:''}<span>${usd(p.envFin)}</span></span>
+    </div>`;
+    // Desaduanaje
+    p.aduLines.forEach(a=>{
+      const aduOriginal=a.b;
+      const aduFinal=p.aduDescM>0?r2(a.b*(1-p.da/100)):a.b;
+      rows+=`<div class="drow">
+        <span class="lb">
+          <span style="font-weight:600;color:var(--ink)">Desaduanaje</span>
+          <span style="display:block;font-size:11px;color:var(--text3)">${esc(a.l)} — gestión de importación ante SUNAT</span>
+        </span>
+        <span class="vl">${p.aduDescM>0?`<span style="text-decoration:line-through;color:var(--text3);font-size:11px">${usd(aduOriginal)}</span> <span>${usd(aduFinal)}</span>`:usd(a.b)}</span>
+      </div>`;
+    });
+    // Delivery
+    if(p.delivery.active){
+      rows+=`<div class="drow"><span class="lb"><span style="font-weight:600;color:var(--ink)">Entrega</span><span style="display:block;font-size:11px;color:var(--text3)">${esc(p.delivery.label)}</span></span><span class="vl">${p.delivery.val>0?usd(p.delivery.val):'<span style="color:var(--green);font-weight:600">Gratis</span>'}</span></div>`;
+    }
+    // Concierge
+    if(p.isConcierge){
+      rows+=`
+      <div class="divt"></div>
+      <div class="drow h"><span>🛒 Servicio Concierge (pago adelantado)</span><span></span></div>
+      <div class="drow"><span class="lb" style="padding-left:10px">Valor del producto</span><span class="vl">${usd(p.cif)}</span></div>
+      <div class="drow prm"><span class="lb" style="padding-left:10px">Comisión Shipper ($1 + 1%)</span><span class="vl">${usd(p.concComis)}</span></div>
+      <div class="drow" style="background:var(--gold-light);border-radius:var(--rx);padding:7px 10px;margin-top:4px">
+        <span class="lb" style="font-weight:600;color:var(--gold-dark)">Total a pagar por adelantado</span>
+        <span class="vl" style="font-weight:700;color:var(--gold-dark)">${usd(p.concTotal)}</span>
+      </div>
+      <p style="font-size:11px;color:var(--text3);margin-top:5px;line-height:1.4">⚠️ Este monto se abona antes de la compra. Incluye el valor del producto y la comisión de Shipper por comprarlo en EE.UU.</p>
+      <div class="divt"></div>
+      `;
+    }
+    rows+=`<div class="divt"></div>`;
+    // Ahorro si hay descuento
+    if(hayDesc){
+      rows+=`<div class="drow disc" style="background:var(--green-light);border-radius:var(--rx);padding:8px 10px;margin-bottom:4px">
+        <span class="lb" style="font-weight:600">🔥 Tu ahorro con el descuento</span>
+        <span class="vl" style="font-size:14px;font-weight:700">− ${usd(ahorro)}</span>
+      </div>`;
+    }
+    rows+=`<div class="drow tot"><span>Total cobro Shipper</span><span class="vl">${usd(totalConDesc)}</span></div>`;
+    return rows;
+  })()}
 </div>
-
 <div class="card">
   <p class="sec-label">Impuestos SUNAT</p>
-  ${p.hayImpuestos ? p.tribDesglose.map(t => `
-    <div class="drow"><span class="lbl" style="font-weight:600;color:var(--ink)">${escapeHTML(t.desc)} — ${formatUSD(t.val)}</span><span></span></div>
-    <div class="drow"><span class="lbl" style="padding-left:10px">Ad valorem 4%</span><span class="val">${formatUSD(t.adval)}</span></div>
-    <div class="drow"><span class="lbl" style="padding-left:10px">IGV 16%</span><span class="val">${formatUSD(t.igv)}</span></div>
-    <div class="drow"><span class="lbl" style="padding-left:10px">IPM 2%</span><span class="val">${formatUSD(t.ipm)}</span></div>
-    <div class="divt"></div>
-  `).join('') + `<div class="drow total"><span>Total impuestos</span><span class="val" style="color:var(--brand-dark)">${formatUSD(p.totalTributos)}</span></div>`
-  : `<div class="empty-st">
-      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      <p>Sin tributos aduaneros<br>${p.items.length === 1 ? 'valor ≤ $200' : 'ningún producto supera $200'}</p>
-    </div>`}
+  ${p.hayImp?p.tribLines.map(t=>`
+    <div class="drow h"><span>${esc(t.desc)} — ${usd(t.val)}</span><span></span></div>
+    <div class="drow"><span class="lb" style="padding-left:10px">Ad valorem 4%</span><span class="vl">${usd(t.adval)}</span></div>
+    <div class="drow"><span class="lb" style="padding-left:10px">IGV 16%</span><span class="vl">${usd(t.igv)}</span></div>
+    <div class="drow"><span class="lb" style="padding-left:10px">IPM 2%</span><span class="vl">${usd(t.ipm)}</span></div>
+    <div class="divt"></div>`).join('')+`<div class="drow tot"><span>Total impuestos</span><span class="vl" style="color:var(--brand-dark)">${usd(p.totalTrib)}</span></div>`
+  :`<div class="emst"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><p>Sin tributos aduaneros<br>${p.items.length===1?'valor ≤ $200':'ningún producto supera $200'}</p></div>`}
 </div>
 </div>
-
 <div class="card">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;gap:8px;flex-wrap:wrap">
-    <p class="sec-label" style="margin:0">Mensaje para el cliente</p>
-  </div>
-  <div class="msg-box" id="msg-box">${escapeHTML(mensaje)}</div>
-  <div class="btn-row">
-    <button type="button" class="btn btn-wa" id="btn-wa">
+  <p class="sec-label">Mensaje para compartir</p>
+  <div class="msgbox" id="msg-box">${esc(buildMsg(p))}</div>
+  <div class="brow">
+    <button type="button" class="btn bwa" id="btn-wa">
       <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       Enviar por WhatsApp
     </button>
-    <button type="button" class="btn btn-ghost" id="btn-copy">
+    <button type="button" class="btn bgh" id="btn-cp">
       <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
       Copiar
     </button>
-    <button type="button" class="btn btn-slate" id="btn-save" style="margin-left:auto">
-      <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      Guardar
-    </button>
   </div>
 </div>
-
-<p class="nota">Los impuestos SUNAT son referenciales. TC S/${state.tc.toFixed(2)} ${state.tcSrc === 'live' ? '(valor del día)' : '(referencial — no se pudo obtener el tipo de cambio actual)'}. Los montos exactos los determina SUNAT al momento del despacho.</p>
-`;
+<p class="nota">📦 <strong>Tiempo de entrega:</strong> 2 a 5 días hábiles en promedio desde EE.UU. · Los impuestos SUNAT son referenciales y pueden variar al momento del despacho. El tipo de cambio (S/ ${S.tc.toFixed(2)}) es referencial.</p>`;
 }
 
-// ─────────────────────────────────────────────────────────────────
-// MENSAJE WHATSAPP
-// ─────────────────────────────────────────────────────────────────
-function buildMensajeWA(p) {
-  const fecha = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-  const L = [];
-
+// ─── MENSAJE WA ───────────────────────────────────────────────────────
+function buildMsg(p){
+  const fecha=new Date().toLocaleDateString('es-PE',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const L=[];
   L.push('📦 *COTIZACIÓN SHIPPER PERÚ*');
-  L.push(`📅 Fecha: ${fecha}`);
-  if (p.cliente) L.push(`👤 Cliente: ${p.cliente}`);
-  if (p.descCot) L.push(`🏷 Descripción: ${p.descCot}`);
+  L.push(`📅 ${fecha}`);
+  if(p.cliente)L.push(`👤 ${p.cliente}`);
+  if(p.descCot)L.push(`🏷 ${p.descCot}`);
   L.push('');
-
-  if (p.isMulti && p.items.length > 0) {
+  if(p.isMulti&&p.items.length>0){
     L.push('🛍 *Productos:*');
-    p.items.forEach(i => {
-      if (i.val > 0) L.push(`   • ${i.desc || 'Producto'}: ${formatUSD(i.val)}`);
-    });
-    L.push(`   *Total productos:* ${formatUSD(p.totalValor)}`);
+    p.items.forEach(i=>{if(i.val>0)L.push(`   • ${i.desc||'Producto'}: ${usd(i.val)}`);});
+    L.push(`   Total: ${usd(p.cif)}`);
     L.push('');
   }
-
-  L.push('*💼 Nuestros servicios:*');
-  L.push(`   • Envío (${p.pesoFinal} kg × $${CONFIG.PESO_RATE}): ${formatUSD(p.envioBase)}${p.dp > 0 ? ` − dto. ${p.dp}% = ${formatUSD(p.envioFinal)}` : ''}`);
-  p.aduanaDesglose.forEach(a => {
-    L.push(`   • ${a.label}: ${formatUSD(a.tarifa)}`);
-  });
-  if (p.da > 0) L.push(`   • Dto. desaduanaje (${p.da}%): − ${formatUSD(p.aduDescMonto)}`);
-  if (p.delivery.active) {
-    L.push(`   • ${p.delivery.label}${p.delivery.val > 0 ? ' — ' + formatUSD(p.delivery.val) : ''}`);
+  if(p.isConcierge){
+    L.push('🛒 *Servicio Concierge — pago adelantado:*');
+    L.push(`   • Valor del producto: ${usd(p.cif)}`);
+    L.push(`   • Comisión Shipper ($1 + 1%): ${usd(p.concComis)}`);
+    L.push(`   💰 *Total a abonar por adelantado: ${usd(p.concTotal)}*`);
+    L.push(`      ≈ ${pen(p.concTotal)}`);
+    L.push('   _Este monto cubre la compra + comisión. Se paga antes de que realicemos la compra._');
+    L.push('');
   }
-  if (p.isConcierge) L.push(`   • Concierge ($1 + 1%): ${formatUSD(p.conciergeVal)}`);
-  L.push(`   ✅ *Subtotal servicios: ${formatUSD(p.totalServicios)}*`);
-  L.push(`      ≈ ${formatPEN(p.totalServicios)}`);
+  L.push('*💼 Cobro Shipper Perú:*');
+  const pr=p.prRate?`$${p.prRate.toFixed(2)}`:'$'+CFG.PR;
+  L.push(`   • Envío internacional (${p.peso}kg × ${pr}): ${p.envDescM>0?usd(p.envBase)+' → '+usd(p.envFin):usd(p.envFin)}`);
+  p.aduLines.forEach(a=>{
+    const aduFin=p.aduDescM>0?r2(a.b*(1-p.da/100)):a.b;
+    L.push(`   • Desaduanaje: ${p.aduDescM>0?usd(a.b)+' → '+usd(aduFin):usd(a.b)}`);
+  });
+  if(p.delivery.active)L.push(`   • Entrega: ${p.delivery.label}${p.delivery.val>0?' — '+usd(p.delivery.val):''}`);
+  const _totalSinDesc=r2(p.envBase+p.aduBase+(p.delivery?.val||0));
+  const _ahorro=r2(_totalSinDesc-p.totalServ);
+  if(_ahorro>0){
+    L.push('');
+    L.push(`   Precio sin descuento: ${usd(_totalSinDesc)}`);
+    L.push(`   🔥 *Tu ahorro: − ${usd(_ahorro)}*`);
+  }
+  L.push(`   ✅ *Total Shipper: ${usd(p.totalServ)}* ≈ ${pen(p.totalServ)}`);
   L.push('');
-
-  if (p.hayImpuestos) {
+  if(p.hayImp){
     L.push('*🏛 Impuestos SUNAT (aprox):*');
-    p.tribDesglose.forEach(t => {
-      L.push(`   • ${t.desc} (${formatUSD(t.val)}):`);
-      L.push(`      Ad val. ${formatUSD(t.adval)} + IGV ${formatUSD(t.igv)} + IPM ${formatUSD(t.ipm)} = ${formatUSD(t.sub)}`);
-    });
-    L.push(`   ⚠️ *Subtotal impuestos: ${formatUSD(p.totalTributos)}*`);
+    p.tribLines.forEach(t=>{L.push(`   • ${t.desc} (${usd(t.val)}): ${usd(t.sub)}`);});
+    L.push(`   ⚠️ *Impuestos: ${usd(p.totalTrib)}*`);
     L.push('');
   } else {
-    L.push('✅ Sin impuestos aduaneros (ningún producto supera $200)');
+    L.push('✅ Sin impuestos (ningún producto supera $200)');
     L.push('');
   }
-
-  L.push(`💰 *TOTAL ESTIMADO: ${formatUSD(p.totalGeneral)}*`);
-  L.push(`   ≈ ${formatPEN(p.totalGeneral)} (TC ref. S/ ${state.tc.toFixed(2)})`);
+  L.push(`💰 *TOTAL: ${usd(p.totalGen)}*`);
+  L.push(`   ≈ ${pen(p.totalGen)} (TC ref. S/ ${S.tc.toFixed(2)})`);
   L.push('');
-  L.push('_⚠ Los impuestos son referenciales y pueden variar según SUNAT al momento del despacho._');
-
+  L.push('_* Montos referenciales. Impuestos definitivos los determina SUNAT._');
+  L.push('_🤝 Price Match: ¿Te cotizaron más barato? ¡Igualamos el precio!_');
   return L.join('\n');
 }
 
-// ─────────────────────────────────────────────────────────────────
-// ACCIONES
-// ─────────────────────────────────────────────────────────────────
-function enviarPorWhatsApp() {
-  if (!state.lastResult) return;
-  const cliente = state.lastResult.cliente || 'Cliente';
-  const intro = `Hola, soy ${cliente} y cotice por la web:\n\n`;
-  const fullMsg = intro + state.lastResult.mensaje;
-  const url = `https://wa.me/${CONFIG.WA_NUMBER}?text=${encodeURIComponent(fullMsg)}`;
-  window.open(url, '_blank', 'noopener,noreferrer');
+function enviarWA(){
+  if(!S.last)return;
+  const nombre=S.last.cliente||'un cliente';
+  const intro=`Hola, soy ${nombre} y acabo de cotizar mi importación:\n\n`;
+  window.open(`https://wa.me/${CFG.WA}?text=${encodeURIComponent(intro+S.last.msg)}`,'_blank','noopener,noreferrer');
 }
 
-async function copiarMensaje() {
-  if (!state.lastResult) return;
-  const btn = $('btn-copy');
-  if (!btn) return;
-
-  const text = state.lastResult.mensaje;
-
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      // Fallback para contextos no seguros
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.left = '-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-    }
+async function copiar(){
+  if(!S.last)return;
+  const btn=$('btn-cp');if(!btn)return;
+  try{
+    if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(S.last.msg);
+    else{const ta=document.createElement('textarea');ta.value=S.last.msg;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
     btn.classList.add('ok');
-    btn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ¡Copiado!`;
-    setTimeout(() => {
-      btn.classList.remove('ok');
-      btn.innerHTML = `<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar`;
-    }, 2000);
-  } catch (e) {
-    btn.textContent = 'Error al copiar';
-    setTimeout(() => calculate(), 1500);
-  }
+    btn.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>¡Copiado!`;
+    setTimeout(()=>{btn.classList.remove('ok');btn.innerHTML=`<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar`;},2000);
+  }catch{btn.textContent='Error';}
 }
 
-// ─────────────────────────────────────────────────────────────────
-// HISTORIAL
-// ─────────────────────────────────────────────────────────────────
-function getHistorial() {
-  return storage.get(CONFIG.STORAGE_KEY, []);
+// ─── AUTO-SAVE ────────────────────────────────────────────────────────
+function scheduleAutoSave(){
+  if(S.asTimer)clearTimeout(S.asTimer);
+  S.asTimer=setTimeout(()=>{
+    if(!S.last)return;
+    const hist=store.get(CFG.SK,[]);
+    const now=Date.now();
+    // Actualizar si hay una cotización del mismo cliente en los últimos 5 min
+    const idx=hist.findIndex(h=>(now-h.ts)<300000&&h.cliente===(S.last.cliente||'')&&h.descCot===(S.last.descCot||''));
+    const entry={id:now,ts:now,cliente:S.last.cliente,descCot:S.last.descCot,totalGen:S.last.totalGen,cif:S.last.cif,peso:S.last.peso,totalServ:S.last.totalServ,totalTrib:S.last.totalTrib,isMulti:S.last.isMulti,items:S.last.items,isConcierge:S.last.isConcierge,delivery:S.last.delivery,discCode:S.last.discCode,msg:S.last.msg};
+    if(idx>=0)hist[idx]=entry;else{hist.unshift(entry);if(hist.length>CFG.MAX_H)hist.length=CFG.MAX_H;}
+    store.set(CFG.SK,hist);
+    renderHist();
+    const lbl=$('autosave-lbl');
+    lbl.textContent='✓ Cotización guardada automáticamente';
+    lbl.className='autosave saved';
+    setTimeout(()=>{lbl.textContent='';lbl.className='autosave';},3000);
+  },1800);
 }
 
-function saveHistorial(arr) {
-  return storage.set(CONFIG.STORAGE_KEY, arr);
-}
-
-function guardarCotizacion() {
-  if (!state.lastResult) return;
-  const btn = $('btn-save');
-  if (!btn) return;
-
-  const hist = getHistorial();
-  const id = Date.now();
-
-  // Solo guardar campos relevantes (no todo el HTML render)
-  const entry = {
-    id,
-    timestamp: id,
-    cliente: state.lastResult.cliente,
-    descCot: state.lastResult.descCot,
-    totalGeneral: state.lastResult.totalGeneral,
-    totalServicios: state.lastResult.totalServicios,
-    totalTributos: state.lastResult.totalTributos,
-    totalValor: state.lastResult.totalValor,
-    pesoFinal: state.lastResult.pesoFinal,
-    isMulti: state.lastResult.isMulti,
-    items: state.lastResult.items,
-    mensaje: state.lastResult.mensaje,
-    dp: state.lastResult.dp,
-    da: state.lastResult.da,
-    isConcierge: state.lastResult.isConcierge,
-    delivery: state.lastResult.delivery
-  };
-
-  hist.unshift(entry);
-  if (hist.length > CONFIG.MAX_HISTORIAL) hist.length = CONFIG.MAX_HISTORIAL;
-
-  if (saveHistorial(hist)) {
-    renderHistorial();
-    btn.classList.add('ok');
-    const orig = btn.innerHTML;
-    btn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Guardada`;
-    setTimeout(() => {
-      btn.classList.remove('ok');
-      btn.innerHTML = orig;
-    }, 1500);
-  } else {
-    btn.textContent = 'Error';
-  }
-}
-
-function eliminarHistorial(id) {
-  showModal({
-    title: 'Eliminar cotización',
-    msg: '¿Eliminar esta cotización del historial?',
-    onConfirm: () => {
-      saveHistorial(getHistorial().filter(x => x.id !== id));
-      renderHistorial();
-    }
-  });
-}
-
-function restaurarHistorial(item) {
-  $('cliente').value = item.cliente || '';
-  $('desc-cot').value = item.descCot || '';
-  $('tog-concierge').checked = !!item.isConcierge;
-  $('tog-delivery').checked = !!(item.delivery && item.delivery.active);
-  $('desc-peso').value = item.dp || '';
-  $('desc-aduana').value = item.da || '';
-
-  if ($('tog-delivery').checked) {
-    $('del-opts').style.display = 'block';
-    // No tenemos forma exacta de saber qué radio era, dejamos shalom por defecto
-  } else {
-    $('del-opts').style.display = 'none';
-  }
-
-  // Limpiar items
-  $('items-list').innerHTML = '';
-  state.itemSeq = 0;
-
-  if (item.isMulti) {
-    $('tog-multi').checked = true;
-    $('modo-single').style.display = 'none';
-    $('modo-multi').style.display = 'block';
-    (item.items || []).forEach(i => addItem(i.desc, i.val.toString()));
-    $('peso-m').value = item.pesoFinal || '';
-  } else {
-    $('tog-multi').checked = false;
-    $('modo-single').style.display = 'block';
-    $('modo-multi').style.display = 'none';
-    $('valor').value = item.totalValor || '';
-    $('peso').value = item.pesoFinal || '';
-  }
-
-  calculate();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function limpiarHistorialCompleto() {
-  showModal({
-    title: 'Limpiar historial',
-    msg: '¿Eliminar todas las cotizaciones guardadas? Esta acción no se puede deshacer.',
-    onConfirm: () => {
-      storage.remove(CONFIG.STORAGE_KEY);
-      renderHistorial();
-    }
-  });
-}
-
-function renderHistorial() {
-  const hist = getHistorial();
-  const list = $('hist-list');
-  const btnClear = $('btn-clear-hist');
-
-  if (hist.length === 0) {
-    list.innerHTML = '<p class="hist-empty">Sin cotizaciones guardadas</p>';
-    btnClear.style.display = 'none';
-    return;
-  }
-
-  btnClear.style.display = '';
-  list.innerHTML = hist.map((item, idx) => {
-    const fecha = new Date(item.timestamp).toLocaleDateString('es-PE', {
-      day: '2-digit', month: '2-digit',
-      hour: '2-digit', minute: '2-digit'
-    });
-    const titulo = item.cliente || item.descCot || 'Cotización';
-    return `<div class="hist-item">
-      <div class="hist-info">
-        <div class="hist-title">${escapeHTML(titulo)}</div>
-        <div class="hist-meta">${escapeHTML(fecha)} · ${formatUSD(item.totalValor)} · ${item.pesoFinal} kg</div>
-      </div>
-      <span class="hist-total">${formatUSD(item.totalGeneral)}</span>
-      <div class="hist-btns">
-        <button type="button" class="btn-hist" data-restore="${idx}" aria-label="Restaurar cotización" title="Restaurar">
-          <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
-        </button>
-        <button type="button" class="btn-hist del" data-delete="${item.id}" aria-label="Eliminar cotización" title="Eliminar">
-          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
-        </button>
+// ─── HISTORIAL ────────────────────────────────────────────────────────
+function getHist(){return store.get(CFG.SK,[]);}
+function renderHist(){
+  const hist=getHist(),list=$('hist-list'),bc=$('btn-clear-hist');
+  if(!hist.length){list.innerHTML='<p class="hempty">Sin cotizaciones guardadas</p>';bc.style.display='none';return;}
+  bc.style.display='';
+  list.innerHTML=hist.map((h,i)=>{
+    const f=new Date(h.ts).toLocaleDateString('es-PE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const tit=h.cliente||h.descCot||'Cotización';
+    return `<div class="hitem">
+      <div class="hinfo"><div class="htit">${esc(tit)}</div><div class="hmeta">${esc(f)} · ${usd(h.cif)} · ${h.peso}kg</div></div>
+      <span class="htot">${usd(h.totalGen)}</span>
+      <div class="hbtns">
+        <button type="button" class="bhist" data-ri="${i}" title="Restaurar"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg></button>
+        <button type="button" class="bhist del" data-di="${h.id}" title="Eliminar"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>
       </div>
     </div>`;
   }).join('');
-
-  // Bind listeners (en lugar de inline onclick)
-  $$('[data-restore]', list).forEach(btn => {
-    btn.addEventListener('click', () => {
-      const idx = parseInt(btn.getAttribute('data-restore'), 10);
-      restaurarHistorial(hist[idx]);
-    });
-  });
-  $$('[data-delete]', list).forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = parseInt(btn.getAttribute('data-delete'), 10);
-      eliminarHistorial(id);
-    });
-  });
+  $$('[data-ri]',list).forEach(b=>b.addEventListener('click',()=>restoreHist(getHist()[+b.dataset.ri])));
+  $$('[data-di]',list).forEach(b=>b.addEventListener('click',()=>{store.set(CFG.SK,getHist().filter(h=>h.id!==+b.dataset.di));renderHist();}));
+}
+function restoreHist(h){
+  if(!h)return;
+  $('cliente').value=h.cliente||'';
+  $('desc-cot').value=h.descCot||'';
+  $('tog-concierge').checked=!!h.isConcierge;
+  $('tog-delivery').checked=!!(h.delivery&&h.delivery.active);
+  $('del-opts').style.display=h.delivery?.active?'block':'none';
+  $('tog-discount').checked=!!(h.discCode);
+  $('discount-section').style.display=h.discCode?'block':'none';
+  if(h.discCode)$('discount-code').value=h.discCode;
+  $('items-list').innerHTML='';S.itemSeq=0;
+  if(h.isMulti){
+    $('tog-multi').checked=true;
+    $('modo-single').style.display='none';$('modo-multi').style.display='block';
+    (h.items||[]).forEach(it=>addItem(it.desc,it.val>0?String(it.val):''));
+    $('peso-m').value=h.peso||'';
+  } else {
+    $('tog-multi').checked=false;
+    $('modo-single').style.display='block';$('modo-multi').style.display='none';
+    $('valor').value=h.cif||'';$('peso').value=h.peso||'';
+  }
+  calcular();window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ─────────────────────────────────────────────────────────────────
-// MODAL
-// ─────────────────────────────────────────────────────────────────
-function showModal({ title, msg, onConfirm }) {
-  $('modal-title').textContent = title;
-  $('modal-msg').textContent = msg;
-  state.modalCallback = onConfirm;
-  $('modal').classList.add('open');
-  $('modal-confirm').focus();
-}
-
-function closeModal() {
-  $('modal').classList.remove('open');
-  state.modalCallback = null;
-}
-
-// ─────────────────────────────────────────────────────────────────
-// INIT
-// ─────────────────────────────────────────────────────────────────
-function init() {
-  // Toggles
-  $('tog-multi').addEventListener('change', function() {
-    $('modo-single').style.display = this.checked ? 'none' : 'block';
-    $('modo-multi').style.display = this.checked ? 'block' : 'none';
-    if (this.checked && $$('#items-list .item-row').length === 0) addItem();
-    calculate();
+// ─── INIT ─────────────────────────────────────────────────────────────
+function init(){
+  $('tog-multi').addEventListener('change',function(){
+    $('modo-single').style.display=this.checked?'none':'block';
+    $('modo-multi').style.display=this.checked?'block':'none';
+    if(this.checked&&!$$('#items-list .irow').length)addItem();
+    calcular();
+  });
+  $('tog-delivery').addEventListener('change',function(){
+    $('del-opts').style.display=this.checked?'block':'none';
+    calcular();
+  });
+  $('tog-concierge').addEventListener('change',calcular);
+  $$('input[name=delivery]').forEach(r=>r.addEventListener('change',calcular));
+  $('tog-discount').addEventListener('change',function(){
+    $('discount-section').style.display=this.checked?'block':'none';
+    if(!this.checked){$('dsts').style.display='none';}
+    calcular();
+  });
+  $('discount-code').addEventListener('input',calcular);
+  $('btn-add-item').addEventListener('click',()=>addItem());
+  $('btn-clear-hist').addEventListener('click',()=>{
+    if(confirm('¿Limpiar todo el historial?')){store.del(CFG.SK);renderHist();}
   });
 
-  $('tog-delivery').addEventListener('change', function() {
-    $('del-opts').style.display = this.checked ? 'block' : 'none';
-    calculate();
+  // Detección automática de peso por descripción
+  $('desc-cot').addEventListener('input',function(){
+    const det=detectarPeso(this.value);
+    const hint=$('peso-hint');
+    const pesoInput=$('peso');
+    if(det&&hint){
+      hint.style.display='flex';
+      hint.innerHTML=`<span>${det.emoji} Detectamos <strong>${det.nombre}</strong> — peso sugerido: <strong>${det.peso} kg</strong></span>
+        <button type="button" onclick="aplicarPesoSugerido(${det.peso})" style="background:var(--brand);color:#fff;border:none;border-radius:var(--rx);padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Montserrat',sans-serif;flex-shrink:0">Usar ${det.peso} kg</button>`;
+    } else if(hint){
+      hint.style.display='none';
+    }
+    calcular();
   });
-
-  $('tog-concierge').addEventListener('change', calculate);
-
-  $$('input[name=delivery]').forEach(r => r.addEventListener('change', calculate));
-
-  // Listener para inputs principales
-  $$('.card input:not([type=checkbox]):not([type=radio]), .card textarea').forEach(el => {
-    el.addEventListener('input', calculate);
-  });
-
-  // Botón agregar producto
-  $('btn-add-item').addEventListener('click', () => addItem());
-
-  // Historial
-  $('btn-clear-hist').addEventListener('click', limpiarHistorialCompleto);
-
-  // Modal
-  $('modal-cancel').addEventListener('click', closeModal);
-  $('modal-confirm').addEventListener('click', () => {
-    if (state.modalCallback) state.modalCallback();
-    closeModal();
-  });
-  $('modal').addEventListener('click', (e) => {
-    if (e.target.id === 'modal') closeModal();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && $('modal').classList.contains('open')) closeModal();
-  });
-
-  // Render inicial
+  $$('#modo-single input, #modo-single textarea, #desc-cot, #cliente').forEach(el=>el.addEventListener('input',calcular));
+  renderEstimador('est-single','peso');
+  renderEstimador('est-multi','peso-m');
   renderSvcs();
-  renderHistorial();
-  renderTcPill();
-
-  // Fetch TC en background (no bloquea init)
-  fetchTipoCambio();
+  renderHist();
+  fetchTC();
 }
-
-// Wait for DOM (safety, aunque está al final del body)
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
 </script>
 </body>
 </html>
