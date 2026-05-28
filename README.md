@@ -60,20 +60,28 @@ Si no se detecta automáticamente, hay un estimador desplegable "¿No sabes el p
 | $0 – $50 | $4.00 |
 | $50.01 – $100 | $7.00 |
 | $100.01 – $200 | $11.00 |
-| $200.01 – $2,000 | $11.00 + SUNAT |
+| $200.01 – $2,000 | $11.00 + SUNAT (solo productos individuales) |
 
-### Múltiples compras
-- Productos **≤ $200 c/u**: se suman y pagan **un solo desaduanaje** basado en la suma total
-- Productos **> $200 c/u**: se evalúan de forma **independiente** y generan impuestos SUNAT por separado
-- El peso siempre es el total de todos los productos
+> El tramo `$201–$2,000` **solo aplica cuando un producto individual supera los $200**. Cuando es una suma de productos pequeños que supera $200, se divide en tramos.
+
+### Regla para producto único
+El valor del producto determina directamente su tramo. Si supera $200, paga $11 de desaduanaje **más** impuestos SUNAT por separado.
+
+### Regla para múltiples compras
+- Productos **> $200 c/u** → se evalúan **individualmente**: $11 desaduanaje + SUNAT por cada uno
+- Productos **≤ $200 c/u** → se **suman** y el total determina el desaduanaje:
+  - Si la suma ≤ $200 → un solo tramo según esa suma
+  - Si la suma > $200 → se divide: **$200 al tramo $100–$200 ($11) + excedente a su tramo**
 
 **Ejemplos:**
 
-| Productos | Desaduanaje |
-|---|---|
-| $150 + $40 = $190 | 1× $11 (tramo $100–$200) |
-| $150 + $70 = $220 | 1× $11 (tramo $100–$200) |
-| $250 + $40 | $250 → $11 + SUNAT / $40 → $4 |
+| Productos | Suma | Desaduanaje |
+|---|---|---|
+| $150 + $40 | $190 | 1× $11 (tramo $100–$200) |
+| $150 + $70 | $220 | $200 → $11 + excedente $20 → $4 = **$15** |
+| $150 + $180 | $330 | $200 → $11 + excedente $130 → $11 = **$22** |
+| $250 + $40 | — | $250 solo: $11 + SUNAT / $40 solo: $4 |
+| $250 + $40 + $80 | $120 sml | $250: $11+SUNAT / suma $120: $11 |
 
 ---
 
