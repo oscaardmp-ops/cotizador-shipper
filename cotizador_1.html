@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Cotizador de importaciones desde EE.UU. a Lima — Shipper Perú">
+<meta name="theme-color" content="#7ebdc2">
+<title>Cotizador · Shipper Perú</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Brand Shipper */
+  --brand:#7ebdc2;          /* teal primario */
+  --brand-dark:#5fa5ab;      /* hover */
+  --brand-light:#e8f3f4;     /* fondos */
+  --brand-lighter:#f4fafb;
+  --slate:#394f5b;           /* azul pizarra */
+  --slate-light:#5c7a89;
+  --ink:#1f1d22;             /* texto principal */
+  --gold:#f3bb53;            /* acento */
+  --gold-dark:#c9963e;
+  --gold-light:#fdf5e3;
+
+  /* UI */
+  --bg:#f8f7f3;
+  --surface:#ffffff;
+  --surface-alt:#f1efe9;
+  --border:#e4e1d8;
+  --border-strong:#c9c5b9;
+  --text:var(--ink);
+  --text2:#6b6960;
+  --text3:#9a9890;
+
+  /* Estados */
+  --green:#2a6b3c;
+  --green-light:#eaf3ee;
+  --amber:#7a4f0d;
+  --amber-light:#fdf3e3;
+  --red:#8a2020;
+  --red-light:#fdeaea;
+
+  /* Tokens */
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-xs:6px;
+  --shadow-sm:0 1px 2px rgba(57,79,91,.04);
+  --shadow:0 2px 8px rgba(57,79,91,.06);
+}
+
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Montserrat',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding:1.25rem 1rem 3rem;
+  font-feature-settings:"kern" 1,"liga" 1;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.wrap{max-width:720px;margin:0 auto}
+
+/* ── Header ────────────────────────────────────────────── */
+header{
+  margin-bottom:1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{
+  width:38px;height:38px;
+  background:var(--brand);
+  border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:var(--shadow-sm);
+}
+.brand-mark svg{width:24px;height:24px}
+.brand-text{display:flex;flex-direction:column;gap:1px}
+.brand-name{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1}
+.brand-tag{font-size:11px;color:var(--text3);font-style:italic}
+
+.tc-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:999px;padding:5px 12px;
+  font-size:12px;color:var(--text2);
+  box-shadow:var(--shadow-sm);
+}
+.tc-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.tc-dot.fb{background:var(--gold-dark)}
+.tc-val{font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--ink);font-size:12px}
+
+/* ── Card ──────────────────────────────────────────────── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.15rem 1.4rem;
+  margin-bottom:12px;
+  box-shadow:var(--shadow-sm);
+}
+.sec-label{
+  font-size:11px;font-weight:600;
+  color:var(--slate);
+  text-transform:uppercase;letter-spacing:.1em;
+  margin-bottom:11px
+}
+.sep-label{
+  font-size:13px;font-weight:600;color:var(--ink);
+  margin:14px 0 9px;
+  display:flex;align-items:center;gap:6px
+}
+
+/* ── Form fields ──────────────────────────────────────── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.igroup{display:flex;flex-direction:column;gap:5px;position:relative}
+.igroup label{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:5px;font-weight:500}
+
+.input,.igroup input,.igroup textarea,.igroup select{
+  width:100%;padding:9px 12px;
+  font-family:'Montserrat',sans-serif;font-size:13px;color:var(--ink);
+  background:var(--surface-alt);
+  border:1px solid var(--border);
+  border-radius:var(--radius-xs);
+  outline:none;
+  transition:border-color .15s,background .15s,box-shadow .15s
+}
+.igroup textarea{resize:vertical;min-height:58px;line-height:1.5}
+.igroup input:focus,.igroup textarea:focus,.igroup select:focus{
+  border-color:var(--brand);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(126,189,194,.18)
+}
+.igroup.has-error input,.igroup.has-error textarea{
+  border-color:var(--red);
+  background:var(--red-light)
+}
+.field-error{font-size:11px;color:var(--red);display:none;font-weight:500}
+.igroup.has-error .field-error{display:block}
+
+.pct-wrap{position:relative}
+.pct-wrap input{padding-right:28px}
+.pct-sym{
+  position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  font-size:13px;color:var(--text3);pointer-events:none;
+  font-family:'JetBrains Mono',monospace
+}
+
+/* ── Tooltip ──────────────────────────────────────────── */
+.tip{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--brand-light);
+  border:1px solid transparent;
+  cursor:help;flex-shrink:0;position:relative
+}
+.tip svg{width:10px;height:10px;stroke:var(--slate);stroke-width:2.5;fill:none}
+.tip:hover,.tip:focus{outline:none}
+.tip:hover .tip-box,.tip:focus-within .tip-box{display:block}
+.tip-box{
+  display:none;position:absolute;left:22px;top:-4px;z-index:99;
+  background:var(--slate);color:#fff;
+  font-size:11px;font-weight:400;line-height:1.55;
+  padding:8px 11px;border-radius:var(--radius-xs);
+  width:240px;pointer-events:none;
+  box-shadow:0 4px 12px rgba(0,0,0,.15)
+}
+.tip-box::before{
+  content:'';position:absolute;left:-5px;top:11px;
+  width:0;height:0;
+  border-top:5px solid transparent;border-bottom:5px solid transparent;
+  border-right:5px solid var(--slate)
+}
+.tip-box.tip-left{left:auto;right:22px}
+.tip-box.tip-left::before{
+  left:auto;right:-5px;
+  border-right:none;border-left:5px solid var(--slate)
+}
+
+/* ── Toggle switch ────────────────────────────────────── */
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid var(--border)
+}
+.toggle-row:last-child{border-bottom:none}
+.toggle-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;padding-right:12px}
+.toggle-title{font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:6px}
+.toggle-desc{font-size:11px;color:var(--text3)}
+
+.switch{position:relative;width:38px;height:22px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{
+  position:absolute;inset:0;
+  background:var(--border-strong);
+  border-radius:11px;cursor:pointer;
+  transition:background .2s
+}
+.slider::before{
+  content:'';position:absolute;
+  width:16px;height:16px;left:3px;top:3px;
+  background:#fff;border-radius:50%;
+  transition:transform .2s;
+  box-shadow:0 1px 2px rgba(0,0,0,.2)
+}
+.switch input:checked+.slider{background:var(--brand)}
+.switch input:checked+.slider::before{transform:translateX(16px)}
+.switch input:focus-visible+.slider{box-shadow:0 0 0 3px rgba(126,189,194,.3)}
+
+/* ── Items múltiples ──────────────────────────────────── */
+.items-hdr{
+  display:grid;grid-template-columns:1fr 105px 30px;gap:7px;
+  margin-bottom:4px;padding:0 2px
+}
+.items-hdr span{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.item-row{
+  display:grid;grid-template-columns:1fr 105px 30px;gap:7px;
+  align-items:center;margin-bottom:6px
+}
+.item-row input{
+  padding:8px 10px;font-size:13px;
+  background:var(--surface-alt);
+  border:1px solid var(--border);
+  border-radius:var(--radius-xs);
+  outline:none;
+  font-family:'Montserrat',sans-serif;
+  color:var(--ink);
+  width:100%
+}
+.item-row input:focus{
+  border-color:var(--brand);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(126,189,194,.18)
+}
+.btn-rm{
+  width:30px;height:34px;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:1px solid var(--border);
+  border-radius:var(--radius-xs);cursor:pointer;
+  color:var(--text3);
+  transition:.15s
+}
+.btn-rm:hover{color:var(--red);border-color:var(--red);background:var(--red-light)}
+.btn-rm svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.btn-add{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  background:none;border:1px dashed var(--border-strong);
+  border-radius:var(--radius-xs);padding:8px 12px;
+  font-size:12px;color:var(--text2);cursor:pointer;
+  width:100%;margin-top:4px;
+  transition:.15s;
+  font-family:'Montserrat',sans-serif;font-weight:500
+}
+.btn-add:hover{border-color:var(--brand);color:var(--brand-dark);background:var(--brand-lighter)}
+.btn-add svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── Delivery radio ───────────────────────────────────── */
+.del-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:11px}
+.del-opt{position:relative}
+.del-opt input[type=radio]{position:absolute;opacity:0;width:0;height:0}
+.del-opt label{
+  display:flex;flex-direction:column;gap:3px;
+  padding:9px 11px;
+  border:1px solid var(--border);border-radius:var(--radius-xs);
+  cursor:pointer;background:var(--surface-alt);
+  transition:.15s;font-size:12px;
+  height:100%
+}
+.del-opt label strong{font-size:12px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:4px}
+.del-opt label span{font-size:11px;color:var(--text3);line-height:1.4}
+.del-opt input:checked+label{
+  border-color:var(--brand);background:#fff;
+  box-shadow:0 0 0 3px rgba(126,189,194,.18)
+}
+.del-opt input:checked+label strong{color:var(--brand-dark)}
+
+/* ── Servicios adicionales (notas) ────────────────────── */
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.svc-note{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 12px;
+  background:var(--surface-alt);
+  border:1px solid var(--border);
+  border-radius:var(--radius-xs)
+}
+.svc-note-name{
+  font-size:12px;color:var(--text);
+  display:flex;align-items:center;gap:6px;font-weight:500
+}
+.svc-note-price{
+  font-size:12px;font-weight:600;color:var(--brand-dark);
+  font-family:'JetBrains Mono',monospace;
+  flex-shrink:0;margin-left:8px
+}
+
+/* ── Summary cards ────────────────────────────────────── */
+.sum-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:8px;margin-bottom:4px
+}
+.scard{
+  background:var(--surface-alt);
+  border-radius:var(--radius-sm);
+  padding:.8rem 1rem
+}
+.scard.feat{
+  background:var(--slate);
+  color:#fff
+}
+.scard.feat .sl{color:rgba(255,255,255,.65)}
+.scard.feat .sv{color:#fff}
+.scard.feat .sv-sub{color:rgba(255,255,255,.6)}
+.scard.csrj{background:var(--gold-light)}
+.scard.csrj .sl{color:var(--gold-dark)}
+.scard.csrj .sv{color:var(--gold-dark)}
+.scard .sl{font-size:11px;color:var(--text3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.scard .sv{
+  font-size:22px;font-weight:600;color:var(--ink);
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:-.02em;line-height:1.2
+}
+.scard .sv.brand{color:var(--brand-dark)}
+.scard .sv.green{color:var(--green)}
+.scard .sv-sub{
+  font-size:11px;color:var(--text3);
+  font-family:'JetBrains Mono',monospace;
+  margin-top:2px
+}
+
+/* ── Desglose rows ────────────────────────────────────── */
+.drow{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:6px 0;border-bottom:1px solid var(--border);
+  font-size:13px;gap:8px
+}
+.drow:last-child{border-bottom:none}
+.drow.total{font-weight:600;font-size:14px;padding-top:9px;border-bottom:none}
+.drow .lbl{color:var(--text2);min-width:0;word-wrap:break-word}
+.drow .val{
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink);
+  flex-shrink:0;font-weight:500
+}
+.drow.disc .val,.drow.disc .lbl{color:var(--green)}
+.drow.promo .val,.drow.promo .lbl{color:var(--gold-dark)}
+.divt{border:none;border-top:1px solid var(--border);margin:7px 0}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+
+/* ── Badge ────────────────────────────────────────────── */
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:600;
+  padding:4px 10px;border-radius:999px;
+  letter-spacing:.02em
+}
+.badge svg{
+  width:11px;height:11px;
+  stroke:currentColor;stroke-width:2.5;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+  flex-shrink:0
+}
+.bg-green{background:var(--green-light);color:var(--green)}
+.bg-amber{background:var(--amber-light);color:var(--amber)}
+.bg-red{background:var(--red-light);color:var(--red)}
+
+/* ── Nota ─────────────────────────────────────────────── */
+.nota{
+  font-size:12px;color:var(--text2);
+  background:var(--brand-lighter);
+  border-radius:var(--radius-xs);
+  padding:9px 13px;margin-top:10px;
+  border-left:3px solid var(--brand);
+  line-height:1.55
+}
+
+/* ── Mensaje WhatsApp ─────────────────────────────────── */
+.msg-box{
+  background:var(--surface-alt);
+  border:1px solid var(--border);
+  border-radius:var(--radius-xs);
+  padding:11px 13px;
+  font-size:12px;color:var(--ink);
+  white-space:pre-wrap;line-height:1.65;
+  font-family:'JetBrains Mono',monospace;
+  word-break:break-word;
+  max-height:280px;overflow-y:auto
+}
+.btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  border:none;border-radius:var(--radius-xs);
+  padding:9px 18px;
+  font-size:13px;font-weight:600;
+  cursor:pointer;
+  transition:transform .1s,opacity .15s,background .15s;
+  font-family:'Montserrat',sans-serif
+}
+.btn:hover{opacity:.92}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.btn svg{
+  width:14px;height:14px;
+  stroke:currentColor;stroke-width:2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round
+}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-dark);opacity:1}
+.btn-wa{background:#25D366;color:#fff}
+.btn-wa:hover{background:#1ebe5a;opacity:1}
+.btn-ghost{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--surface-alt);opacity:1}
+.btn-slate{background:var(--slate);color:#fff}
+.btn-slate:hover{background:#2a3b44;opacity:1}
+.btn.ok{background:var(--green)!important;color:#fff}
+
+/* ── Historial ────────────────────────────────────────── */
+.hist-empty{
+  font-size:12px;color:var(--text3);text-align:center;
+  padding:1rem 0
+}
+.hist-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 0;
+  border-bottom:1px solid var(--border);gap:10px
+}
+.hist-item:last-child{border-bottom:none}
+.hist-info{flex:1;min-width:0}
+.hist-title{
+  font-size:13px;font-weight:600;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.hist-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.hist-total{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;font-weight:600;color:var(--brand-dark);
+  flex-shrink:0
+}
+.hist-btns{display:flex;gap:4px}
+.btn-hist{
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:1px solid var(--border);
+  border-radius:var(--radius-xs);cursor:pointer;
+  color:var(--text3);
+  transition:.15s
+}
+.btn-hist:hover{color:var(--brand-dark);border-color:var(--brand)}
+.btn-hist.del:hover{color:var(--red);border-color:var(--red)}
+.btn-hist svg{width:13px;height:13px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+.link-clear{
+  background:none;border:none;
+  font-size:12px;color:var(--text3);
+  cursor:pointer;padding:3px 8px;
+  border-radius:var(--radius-xs);
+  font-family:'Montserrat',sans-serif
+}
+.link-clear:hover{color:var(--red);background:var(--red-light)}
+
+/* ── Empty state ──────────────────────────────────────── */
+.empty-st{
+  display:flex;flex-direction:column;align-items:center;
+  padding:1.4rem 0;gap:6px
+}
+.empty-st svg{width:28px;height:28px;stroke:var(--green);stroke-width:1.5;fill:none}
+.empty-st p{font-size:12px;color:var(--text2);text-align:center;line-height:1.5}
+
+footer{
+  text-align:center;font-size:11px;color:var(--text3);
+  margin-top:1.5rem;padding-top:1rem;
+  border-top:1px solid var(--border)
+}
+
+/* ── Modal de confirmación ────────────────────────────── */
+.modal-backdrop{
+  position:fixed;inset:0;
+  background:rgba(31,29,34,.45);
+  display:none;align-items:center;justify-content:center;
+  z-index:1000;padding:1rem;
+  backdrop-filter:blur(2px)
+}
+.modal-backdrop.open{display:flex}
+.modal{
+  background:#fff;border-radius:var(--radius);
+  padding:1.5rem;max-width:380px;width:100%;
+  box-shadow:0 10px 40px rgba(0,0,0,.2)
+}
+.modal h3{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.modal p{font-size:13px;color:var(--text2);margin-bottom:1rem;line-height:1.5}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media(max-width:540px){
+  body{padding:1rem .75rem 2rem}
+  .wrap{padding:0}
+  .two-col,.grid2,.svc-grid{grid-template-columns:1fr}
+  .del-opts{grid-template-columns:1fr}
+  .sum-grid{grid-template-columns:1fr 1fr}
+  header{flex-direction:column;align-items:flex-start}
+  .tc-pill{align-self:flex-start}
+  .card{padding:1rem 1.1rem}
+  .tip-box{width:200px}
+}
+@media(max-width:380px){
+  .sum-grid{grid-template-columns:1fr}
+  .btn-row .btn{flex:1;justify-content:center}
+}
+
+/* ── Accesibilidad ────────────────────────────────────── */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+*:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+input:focus-visible,textarea:focus-visible,select:focus-visible{outline:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 12 a38 38 0 0 1 38 38 a38 38 0 0 1 -38 38 a38 38 0 0 1 -27-11 L78 27 a38 38 0 0 1 10 23z M50 88 a38 38 0 0 1 -38-38 a38 38 0 0 1 38-38 a38 38 0 0 1 27 11 L22 73 a38 38 0 0 1 -10-23z" fill="#fff"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <span class="brand-name">Shipper</span>
+      <span class="brand-tag">tráelo con Shipper</span>
+    </div>
+  </div>
+  <div class="tc-pill" title="Tipo de cambio USD/PEN" id="tc-pill">
+    <span class="tc-dot" id="tc-dot" aria-hidden="true"></span>
+    <span>TC:</span>
+    <span class="tc-val" id="tc-disp">S/ 3.50</span>
+    <span id="tc-src" style="font-size:11px;color:var(--text3)">ref.</span>
+  </div>
+</header>
+
+<!-- ── FORM ───────────────────────────────────────────────────── -->
+<div class="card">
+  <h2 class="sr-only">Cotizador de importaciones</h2>
+  <p class="sec-label">Datos del envío</p>
+
+  <div class="grid2" style="margin-bottom:11px">
+    <div class="igroup">
+      <label for="desc-cot">
+        Descripción (opcional)
+        <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="tip-box">Describe brevemente qué se está importando. Aparecerá en el mensaje al cliente.</span>
+        </span>
+      </label>
+      <textarea id="desc-cot" placeholder="Ej: Zapatillas Nike, electrónico..." rows="2"></textarea>
+    </div>
+    <div class="igroup">
+      <label for="cliente">
+        Cliente (opcional)
+        <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="tip-box">Nombre del cliente para personalizar la cotización.</span>
+        </span>
+      </label>
+      <input type="text" id="cliente" placeholder="Nombre del cliente" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="sep-label">Opciones de servicio</div>
+  <div style="margin-bottom:11px">
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <span class="toggle-title">Múltiples compras
+          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span class="tip-box">Cotiza varios productos en un envío. Productos ≤ $200 c/u se suman y pagan un solo desaduanaje. Productos > $200 pagan SUNAT individualmente.</span>
+          </span>
+        </span>
+        <span class="toggle-desc">Varios productos en un mismo envío</span>
+      </div>
+      <label class="switch"><input type="checkbox" id="tog-multi" aria-label="Activar múltiples compras"><span class="slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <span class="toggle-title">Servicio Concierge
+          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span class="tip-box tip-left">Compramos por ti en tiendas de EE.UU. Se cobra $1 fijo + 1% del valor del producto.</span>
+          </span>
+        </span>
+        <span class="toggle-desc">Compramos por ti — $1 + 1% del valor</span>
+      </div>
+      <label class="switch"><input type="checkbox" id="tog-concierge" aria-label="Activar concierge"><span class="slider"></span></label>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <span class="toggle-title">Delivery Lima
+          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span class="tip-box tip-left">Elige cómo recibirá el cliente su paquete en Lima.</span>
+          </span>
+        </span>
+        <span class="toggle-desc">Elige cómo recibirá el paquete</span>
+      </div>
+      <label class="switch"><input type="checkbox" id="tog-delivery" aria-label="Activar delivery"><span class="slider"></span></label>
+    </div>
+  </div>
+
+  <!-- Delivery options -->
+  <div id="del-opts" style="display:none">
+    <div class="del-opts" role="radiogroup" aria-label="Opciones de delivery">
+      <div class="del-opt">
+        <input type="radio" name="delivery" id="del-shalom" value="shalom" checked>
+        <label for="del-shalom">
+          <strong>Shalom</strong>
+          <span>Contraentrega · sin costo</span>
+        </label>
+      </div>
+      <div class="del-opt">
+        <input type="radio" name="delivery" id="del-olva" value="olva">
+        <label for="del-olva">
+          <strong>Olva Courier</strong>
+          <span>Agencia Olva · desde $4</span>
+        </label>
+      </div>
+      <div class="del-opt">
+        <input type="radio" name="delivery" id="del-express" value="express">
+        <label for="del-express">
+          <strong>Express</strong>
+          <span>A domicilio · desde $4</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modo único -->
+  <div id="modo-single">
+    <div class="grid2">
+      <div class="igroup" id="grp-valor">
+        <label for="valor">
+          Valor del producto (US$)
+          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span class="tip-box">Precio del producto en dólares. Si supera $200, aplican impuestos SUNAT. Máximo $2,000 (régimen courier).</span>
+          </span>
+        </label>
+        <input type="number" id="valor" min="0.01" max="2000" step="0.01" placeholder="Ej: 150.00" autocomplete="off" inputmode="decimal">
+        <span class="field-error" id="err-valor" role="alert"></span>
+      </div>
+      <div class="igroup" id="grp-peso">
+        <label for="peso">
+          Peso (kg)
+          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span class="tip-box">Peso del paquete en kg. Se cobra $10 por kg. Mínimo 0.1 kg. Se redondea a 1 decimal.</span>
+          </span>
+        </label>
+        <input type="number" id="peso" min="0.1" max="500" step="0.1" placeholder="Ej: 1.5" autocomplete="off" inputmode="decimal">
+        <span class="field-error" id="err-peso" role="alert"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modo múltiple -->
+  <div id="modo-multi" style="display:none">
+    <div class="items-hdr">
+      <span>Producto</span>
+      <span style="text-align:right">Valor (US$)</span>
+      <span></span>
+    </div>
+    <div id="items-list" role="list"></div>
+    <button type="button" class="btn-add" id="btn-add-item" aria-label="Agregar producto">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Agregar producto
+    </button>
+    <div style="margin-top:11px;max-width:220px">
+      <div class="igroup" id="grp-peso-m">
+        <label for="peso-m">
+          Peso total (kg)
+          <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span class="tip-box">Peso total de todos los productos juntos.</span>
+          </span>
+        </label>
+        <input type="number" id="peso-m" min="0.1" max="500" step="0.1" placeholder="Ej: 2.0" autocomplete="off" inputmode="decimal">
+        <span class="field-error" id="err-peso-m" role="alert"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Descuentos -->
+  <div class="sep-label">
+    Descuentos
+    <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span class="tip-box">Si acordaste un descuento con el cliente, ingrésalo. Solo afecta nuestras tarifas, no los impuestos SUNAT.</span>
+    </span>
+  </div>
+  <div class="grid2">
+    <div class="igroup" id="grp-dp">
+      <label for="desc-peso">
+        Descuento en envío (peso)
+        <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="tip-box">% de descuento sobre el costo de envío por peso ($10/kg).</span>
+        </span>
+      </label>
+      <div class="pct-wrap">
+        <input type="number" id="desc-peso" min="0" max="100" step="1" placeholder="0" autocomplete="off" inputmode="numeric">
+        <span class="pct-sym">%</span>
+      </div>
+      <span class="field-error" id="err-dp" role="alert"></span>
+    </div>
+    <div class="igroup" id="grp-da">
+      <label for="desc-aduana">
+        Descuento en desaduanaje
+        <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="tip-box">% de descuento sobre la tarifa de desaduanaje.</span>
+        </span>
+      </label>
+      <div class="pct-wrap">
+        <input type="number" id="desc-aduana" min="0" max="100" step="1" placeholder="0" autocomplete="off" inputmode="numeric">
+        <span class="pct-sym">%</span>
+      </div>
+      <span class="field-error" id="err-da" role="alert"></span>
+    </div>
+  </div>
+
+  <!-- Servicios adicionales (notas) -->
+  <div class="sep-label">
+    Servicios adicionales
+    <span class="tip" tabindex="0" aria-label="Ayuda"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span class="tip-box">Otros servicios disponibles en nuestro almacén en EE.UU.</span>
+    </span>
+  </div>
+  <div class="svc-grid" id="svc-grid"></div>
+</div>
+
+<div id="resultado" aria-live="polite"></div>
+
+<!-- HISTORIAL -->
+<div class="card">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+    <p class="sec-label" style="margin:0">Historial de cotizaciones</p>
+    <button type="button" id="btn-clear-hist" class="link-clear" style="display:none">Limpiar todo</button>
+  </div>
+  <div id="hist-list"></div>
+</div>
+
+<footer>Shipper Perú &nbsp;·&nbsp; Importaciones USA → Lima &nbsp;·&nbsp; Régimen courier SUNAT hasta US$&nbsp;2,000</footer>
+</div>
+
+<!-- Modal confirm -->
+<div class="modal-backdrop" id="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+  <div class="modal">
+    <h3 id="modal-title">Confirmar acción</h3>
+    <p id="modal-msg">¿Estás seguro?</p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="modal-cancel">Cancelar</button>
+      <button type="button" class="btn btn-primary" id="modal-confirm">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ─────────────────────────────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────────────────────────────
+const CONFIG = Object.freeze({
+  WA_NUMBER: '51989456429',
+  TC_FALLBACK: 3.50,
+  TC_APIS: [
+    'https://api.exchangerate-api.com/v4/latest/USD',
+    'https://open.er-api.com/v6/latest/USD'
+  ],
+  STORAGE_KEY: 'shipper_cotizaciones_v2',
+  MAX_HISTORIAL: 20,
+  COURIER_MAX: 2000,
+  SUNAT_THRESHOLD: 200,
+  PESO_RATE: 10,           // $10 por kg
+  CONCIERGE_FIJO: 1,        // $1 fijo
+  CONCIERGE_PCT: 0.01,      // 1%
+});
+
+const SVCS = Object.freeze([
+  { name:'Foto de contenido', price:'desde $5', tip:'Tomamos foto del contenido de tu paquete antes de enviarlo para verificar que todo llegó correctamente.' },
+  { name:'Consolidación',     price:'gratis hasta 5 pkgs', tip:'Unimos varios paquetes en una sola guía para ahorrar en desaduanaje. Gratis hasta 5 paquetes.' },
+  { name:'Separación',        price:'desde $5/pkg', tip:'Separamos los artículos de tu paquete para identificarlos o distribuirlos entre destinatarios.' },
+  { name:'Pickup',            price:'desde $15', tip:'Recogemos tu paquete en una dirección dentro de EE.UU.' },
+  { name:'In/Out',            price:'desde $25', tip:'Retiramos tu paquete del almacén sin enviarlo a Perú. Exonerable según el caso. Útil si decides gestionar el envío por tu cuenta.' },
+  { name:'Bubble wrap',       price:'desde $5', tip:'Protegemos tu paquete con plástico burbuja para evitar daños durante el tránsito.' },
+]);
+
+// ─────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────
+const state = {
+  tc: CONFIG.TC_FALLBACK,
+  tcSrc: 'fallback',
+  itemSeq: 0,
+  lastResult: null,
+  modalCallback: null
+};
+
+// ─────────────────────────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────────────────────────
+const $ = (id) => document.getElementById(id);
+const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+
+const round2 = (n) => Math.round(n * 100) / 100;
+const round1 = (n) => Math.round(n * 10) / 10;
+const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+const formatUSD = (n) => '$' + (Math.abs(n)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const formatPEN = (n) => 'S/ ' + (Math.abs(n) * state.tc).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+const escapeHTML = (s) => String(s ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
+const getRawValue = (id) => {
+  const el = $(id);
+  return el ? el.value.trim() : '';
+};
+
+const setFieldError = (groupId, msg) => {
+  const grp = $('grp-' + groupId);
+  const err = $('err-' + groupId);
+  if (!grp) return;
+  if (msg) {
+    grp.classList.add('has-error');
+    if (err) err.textContent = msg;
+  } else {
+    grp.classList.remove('has-error');
+    if (err) err.textContent = '';
+  }
+};
+
+// LocalStorage helpers con manejo seguro
+const storage = {
+  get(key, fallback = null) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+      console.warn('Storage read failed:', e);
+      return fallback;
+    }
+  },
+  set(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+      return true;
+    } catch (e) {
+      console.warn('Storage write failed:', e);
+      return false;
+    }
+  },
+  remove(key) {
+    try { localStorage.removeItem(key); return true; }
+    catch (e) { return false; }
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────
+// TIPO DE CAMBIO
+// ─────────────────────────────────────────────────────────────────
+async function fetchTipoCambio() {
+  for (const url of CONFIG.TC_APIS) {
+    try {
+      const ctrl = new AbortController();
+      const timeout = setTimeout(() => ctrl.abort(), 5000);
+      const res = await fetch(url, { signal: ctrl.signal });
+      clearTimeout(timeout);
+      if (!res.ok) continue;
+      const data = await res.json();
+      const pen = data?.rates?.PEN;
+      if (pen && typeof pen === 'number' && pen > 3 && pen < 5) {
+        state.tc = round2(pen);
+        state.tcSrc = 'live';
+        break;
+      }
+    } catch (e) { /* continúa con la siguiente API */ }
+  }
+  renderTcPill();
+  // Recalcular para que los soles se actualicen
+  if (state.lastResult) calculate();
+}
+
+function renderTcPill() {
+  $('tc-disp').textContent = 'S/ ' + state.tc.toFixed(2);
+  $('tc-src').textContent = state.tcSrc === 'live' ? 'hoy' : 'ref.';
+  $('tc-dot').className = 'tc-dot' + (state.tcSrc === 'fallback' ? ' fb' : '');
+}
+
+// ─────────────────────────────────────────────────────────────────
+// SERVICIOS ADICIONALES (notas informativas)
+// ─────────────────────────────────────────────────────────────────
+function renderSvcs() {
+  $('svc-grid').innerHTML = SVCS.map(s => `
+    <div class="svc-note">
+      <span class="svc-note-name">
+        ${escapeHTML(s.name)}
+        <span class="tip" tabindex="0" aria-label="Información sobre ${escapeHTML(s.name)}">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="tip-box">${escapeHTML(s.tip)}</span>
+        </span>
+      </span>
+      <span class="svc-note-price">${escapeHTML(s.price)}</span>
+    </div>
+  `).join('');
+}
+
+// ─────────────────────────────────────────────────────────────────
+// ITEMS MÚLTIPLES
+// ─────────────────────────────────────────────────────────────────
+function addItem(desc = '', val = '') {
+  state.itemSeq++;
+  const id = 'itm-' + state.itemSeq;
+  const seq = state.itemSeq;
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.id = id;
+  div.setAttribute('role', 'listitem');
+  div.innerHTML = `
+    <input type="text" placeholder="Producto ${seq}" value="${escapeHTML(desc)}" aria-label="Descripción producto ${seq}">
+    <input type="number" min="0.01" step="0.01" placeholder="0.00" value="${escapeHTML(val)}" style="text-align:right" aria-label="Valor producto ${seq}" inputmode="decimal">
+    <button type="button" class="btn-rm" aria-label="Eliminar producto ${seq}" data-rm="${id}">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+    </button>
+  `;
+  $('items-list').appendChild(div);
+  // Listeners
+  $$('input', div).forEach(inp => inp.addEventListener('input', calculate));
+  div.querySelector('.btn-rm').addEventListener('click', () => removeItem(id));
+  calculate();
+}
+
+function removeItem(id) {
+  const el = $(id);
+  if (el) el.remove();
+  calculate();
+}
+
+function getItemsFromDOM() {
+  return $$('#items-list .item-row').map(row => {
+    const inputs = row.querySelectorAll('input');
+    return {
+      desc: inputs[0]?.value?.trim() || '',
+      val: parseFloat(inputs[1]?.value) || 0
+    };
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────
+// DELIVERY
+// ─────────────────────────────────────────────────────────────────
+function getDeliveryInfo() {
+  if (!$('tog-delivery').checked) return { val: 0, label: '', active: false };
+  const sel = document.querySelector('input[name=delivery]:checked')?.value || 'shalom';
+  if (sel === 'shalom')  return { val: 0, label: 'Shalom — contraentrega (sin costo adicional)', active: true };
+  if (sel === 'olva')    return { val: 4, label: 'Olva Courier — desde $4', active: true };
+  if (sel === 'express') return { val: 4, label: 'Delivery express Lima — desde $4', active: true };
+  return { val: 0, label: '', active: false };
+}
+
+// ─────────────────────────────────────────────────────────────────
+// LÓGICA DE DESADUANAJE
+// ─────────────────────────────────────────────────────────────────
+function tarifaDesaduanaje(v) {
+  if (v <= 0)    return { base: 0,  label: '$0' };
+  if (v <= 50)   return { base: 4,  label: '$0–$50' };
+  if (v <= 100)  return { base: 7,  label: '$50–$100' };
+  if (v <= 200)  return { base: 11, label: '$100–$200' };
+  return            { base: 11, label: '$201–$2,000' }; // con SUNAT aparte
+}
+
+/**
+ * Calcula líneas de desaduanaje para un monto.
+ * Si el monto > $200, se divide en: tramo de $200 + excedente.
+ * @returns {{lines: Array, total: number}}
+ */
+function calcDesaduanajeMonto(monto, prefix) {
+  const lines = [];
+  let total = 0;
+  if (monto <= 0) return { lines, total };
+  if (monto <= 200) {
+    const t = tarifaDesaduanaje(monto);
+    lines.push({ label: `${prefix} (${t.label})`, tarifa: t.base });
+    total = t.base;
+  } else {
+    // Tramo hasta $200
+    const t1 = tarifaDesaduanaje(200);
+    lines.push({ label: `${prefix} hasta $200 (${t1.label})`, tarifa: t1.base });
+    total = t1.base;
+    // Excedente
+    const exc = round2(monto - 200);
+    const t2 = tarifaDesaduanaje(exc);
+    lines.push({ label: `Excedente ${formatUSD(exc)} (${t2.label})`, tarifa: t2.base });
+    total = round2(total + t2.base);
+  }
+  return { lines, total };
+}
+
+function calcImpuestosSUNAT(valor) {
+  const adval = round2(valor * 0.04);
+  const baseIgv = valor + adval;
+  const igv = round2(baseIgv * 0.16);
+  const ipm = round2(baseIgv * 0.02);
+  const sub = round2(adval + igv + ipm);
+  return { adval, igv, ipm, sub };
+}
+
+// ─────────────────────────────────────────────────────────────────
+// VALIDACIÓN
+// ─────────────────────────────────────────────────────────────────
+function validateInputs(isMulti) {
+  let hasError = false;
+  let cif = 0, peso = 0;
+  let items = [];
+
+  if (!isMulti) {
+    const rv = getRawValue('valor');
+    const rp = getRawValue('peso');
+
+    if (rv === '' && rp === '') {
+      // Vacío total: limpiar errores y salir
+      ['valor', 'peso', 'dp', 'da'].forEach(id => setFieldError(id, ''));
+      return { empty: true };
+    }
+
+    const cv = parseFloat(rv);
+    if (rv === '') {
+      setFieldError('valor', 'Ingresa el valor');
+      hasError = true;
+    } else if (isNaN(cv) || cv <= 0) {
+      setFieldError('valor', 'Debe ser mayor a $0');
+      hasError = true;
+    } else if (cv > CONFIG.COURIER_MAX) {
+      setFieldError('valor', `Máximo $${CONFIG.COURIER_MAX.toLocaleString()}`);
+      hasError = true;
+      cif = cv;
+      items = [{ desc: '', val: cv }];
+    } else {
+      setFieldError('valor', '');
+      cif = cv;
+      items = [{ desc: '', val: cv }];
+    }
+
+    const cp = parseFloat(rp);
+    if (rp === '') {
+      setFieldError('peso', 'Ingresa el peso');
+      hasError = true;
+    } else if (isNaN(cp) || cp < 0.1) {
+      setFieldError('peso', 'Mínimo 0.1 kg');
+      hasError = true;
+    } else {
+      setFieldError('peso', '');
+      peso = cp;
+    }
+  } else {
+    items = getItemsFromDOM().filter(i => i.val > 0);
+    cif = round2(items.reduce((a, i) => a + i.val, 0));
+
+    const rp = getRawValue('peso-m');
+    const cp = parseFloat(rp);
+
+    if (items.length === 0 && rp === '') {
+      setFieldError('peso-m', '');
+      return { empty: true };
+    }
+
+    if (items.length === 0) {
+      setFieldError('peso-m', '');
+      return { empty: true };
+    }
+
+    if (cif > CONFIG.COURIER_MAX) {
+      // Marcar el último item con valor como error (no hay un campo único)
+      hasError = true;
+    }
+
+    if (rp === '') {
+      setFieldError('peso-m', 'Ingresa el peso total');
+      hasError = true;
+    } else if (isNaN(cp) || cp < 0.1) {
+      setFieldError('peso-m', 'Mínimo 0.1 kg');
+      hasError = true;
+    } else {
+      setFieldError('peso-m', '');
+      peso = cp;
+    }
+  }
+
+  // Descuentos
+  const rdp = getRawValue('desc-peso');
+  const rda = getRawValue('desc-aduana');
+  let dp = parseFloat(rdp) || 0;
+  let da = parseFloat(rda) || 0;
+
+  if (rdp !== '' && (isNaN(dp) || dp < 0)) {
+    setFieldError('dp', 'No puede ser negativo');
+    hasError = true; dp = 0;
+  } else if (dp > 100) {
+    setFieldError('dp', 'Máximo 100%');
+    hasError = true; dp = 100;
+  } else {
+    setFieldError('dp', '');
+  }
+
+  if (rda !== '' && (isNaN(da) || da < 0)) {
+    setFieldError('da', 'No puede ser negativo');
+    hasError = true; da = 0;
+  } else if (da > 100) {
+    setFieldError('da', 'Máximo 100%');
+    hasError = true; da = 100;
+  } else {
+    setFieldError('da', '');
+  }
+
+  return { hasError, cif, peso, items, dp, da };
+}
+
+// ─────────────────────────────────────────────────────────────────
+// CÁLCULO PRINCIPAL
+// ─────────────────────────────────────────────────────────────────
+function calculate() {
+  const el = $('resultado');
+  const isMulti = $('tog-multi').checked;
+  const isConcierge = $('tog-concierge').checked;
+  const delivery = getDeliveryInfo();
+
+  const v = validateInputs(isMulti);
+
+  if (v.empty || v.hasError) {
+    el.innerHTML = '';
+    state.lastResult = null;
+    return;
+  }
+
+  let { cif, peso, items, dp, da } = v;
+
+  // Si excede el límite courier
+  if (cif > CONFIG.COURIER_MAX) {
+    el.innerHTML = `<div class="card">
+      <div style="margin-bottom:10px"><span class="badge bg-red">
+        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Supera límite courier
+      </span></div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.5">Valores mayores a US$ ${CONFIG.COURIER_MAX.toLocaleString()} requieren importación formal con agente de aduanas. No es posible cotizar por este medio.</p>
+    </div>`;
+    state.lastResult = null;
+    return;
+  }
+
+  peso = round1(peso);
+
+  // ── Desaduanaje ────────────────────────────────────────────
+  let aduanaDesglose = [];
+  let totalAduanaBase = 0;
+  let tribDesglose = [];
+  let totalTributos = 0;
+
+  if (!isMulti || items.length <= 1) {
+    const r = calcDesaduanajeMonto(items[0]?.val || 0, 'Desaduanaje');
+    aduanaDesglose = r.lines;
+    totalAduanaBase = r.total;
+  } else {
+    const grandes = items.filter(i => i.val > CONFIG.SUNAT_THRESHOLD);
+    const chicos = items.filter(i => i.val > 0 && i.val <= CONFIG.SUNAT_THRESHOLD);
+
+    // Productos > $200 → solos con SUNAT
+    grandes.forEach(item => {
+      const t = tarifaDesaduanaje(item.val);
+      const lbl = (item.desc || 'Producto') + ' ' + formatUSD(item.val);
+      aduanaDesglose.push({ label: `Desaduanaje ${lbl} (${t.label})`, tarifa: t.base });
+      totalAduanaBase = round2(totalAduanaBase + t.base);
+    });
+
+    // Productos ≤ $200 → suma + posible división por excedente
+    if (chicos.length > 0) {
+      const sumaChicos = round2(chicos.reduce((a, i) => a + i.val, 0));
+      const prefijo = chicos.length > 1
+        ? `Desaduanaje productos (${formatUSD(sumaChicos)})`
+        : 'Desaduanaje';
+      const r = calcDesaduanajeMonto(sumaChicos, prefijo);
+      aduanaDesglose.push(...r.lines);
+      totalAduanaBase = round2(totalAduanaBase + r.total);
+    }
+  }
+
+  const aduDescMonto = round2(totalAduanaBase * (da / 100));
+  const totalAduana = round2(totalAduanaBase - aduDescMonto);
+
+  // ── Impuestos SUNAT ────────────────────────────────────────
+  items.forEach(item => {
+    if (item.val > CONFIG.SUNAT_THRESHOLD) {
+      const imp = calcImpuestosSUNAT(item.val);
+      tribDesglose.push({
+        desc: item.desc || 'Producto',
+        val: item.val,
+        ...imp
+      });
+      totalTributos = round2(totalTributos + imp.sub);
+    }
+  });
+  const hayImpuestos = tribDesglose.length > 0;
+
+  // ── Envío ──────────────────────────────────────────────────
+  const envioBase = round2(peso * CONFIG.PESO_RATE);
+  const envioDescMonto = round2(envioBase * (dp / 100));
+  const envioFinal = round2(envioBase - envioDescMonto);
+
+  // ── Concierge ──────────────────────────────────────────────
+  const conciergeVal = isConcierge
+    ? round2(CONFIG.CONCIERGE_FIJO + cif * CONFIG.CONCIERGE_PCT)
+    : 0;
+
+  // ── Totales ────────────────────────────────────────────────
+  const totalServicios = round2(envioFinal + totalAduana + delivery.val + conciergeVal);
+  const totalGeneral = round2(totalServicios + totalTributos);
+
+  // Badge de estado
+  let badge;
+  if (hayImpuestos) {
+    badge = `<span class="badge bg-amber">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16h12V2z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Afecto a tributos
+    </span>`;
+  } else {
+    badge = `<span class="badge bg-green">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      Sin impuestos SUNAT
+    </span>`;
+  }
+
+  // Datos para mensaje y guardado
+  const cliente = getRawValue('cliente');
+  const descCot = getRawValue('desc-cot') ||
+    (isMulti ? items.map(i => i.desc).filter(Boolean).join(', ') : '');
+
+  const payload = {
+    cliente, descCot, items, isMulti, totalValor: cif,
+    pesoFinal: peso, envioBase, envioDescMonto, dp, envioFinal,
+    aduanaDesglose, totalAduanaBase, aduDescMonto, da, totalAduana,
+    delivery, conciergeVal, isConcierge,
+    tribDesglose, totalTributos, hayImpuestos,
+    totalServicios, totalGeneral
+  };
+
+  const mensaje = buildMensajeWA(payload);
+
+  // ── Render ─────────────────────────────────────────────────
+  el.innerHTML = renderResultado(payload, badge, mensaje);
+
+  // Guardar último resultado
+  state.lastResult = { ...payload, mensaje, timestamp: Date.now() };
+
+  // Bind eventos del bloque de mensaje
+  const btnWA = $('btn-wa');
+  const btnCopy = $('btn-copy');
+  const btnSave = $('btn-save');
+  if (btnWA) btnWA.addEventListener('click', enviarPorWhatsApp);
+  if (btnCopy) btnCopy.addEventListener('click', copiarMensaje);
+  if (btnSave) btnSave.addEventListener('click', guardarCotizacion);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// RENDER DEL RESULTADO
+// ─────────────────────────────────────────────────────────────────
+function renderResultado(p, badge, mensaje) {
+  return `
+<div class="card">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap">
+    <p class="sec-label" style="margin:0">Resumen</p>${badge}
+  </div>
+  <div class="sum-grid">
+    <div class="scard">
+      <p class="sl">Nuestros servicios</p>
+      <p class="sv">${formatUSD(p.totalServicios)}</p>
+      <p class="sv-sub">${formatPEN(p.totalServicios)}</p>
+    </div>
+    ${p.isConcierge ? `
+    <div class="scard csrj">
+      <p class="sl">Concierge</p>
+      <p class="sv">${formatUSD(p.conciergeVal)}</p>
+      <p class="sv-sub">${formatPEN(p.conciergeVal)}</p>
+    </div>` : ''}
+    <div class="scard">
+      <p class="sl">Impuestos SUNAT</p>
+      <p class="sv ${p.hayImpuestos ? 'brand' : 'green'}">${formatUSD(p.totalTributos)}</p>
+      <p class="sv-sub">${p.hayImpuestos ? formatPEN(p.totalTributos) : 'sin tributos'}</p>
+    </div>
+    <div class="scard feat">
+      <p class="sl">Total estimado</p>
+      <p class="sv">${formatUSD(p.totalGeneral)}</p>
+      <p class="sv-sub">${formatPEN(p.totalGeneral)}</p>
+    </div>
+  </div>
+</div>
+
+<div class="two-col">
+<div class="card">
+  <p class="sec-label">Nuestros servicios</p>
+  <div class="drow"><span class="lbl">Envío — ${p.pesoFinal} kg × $${CONFIG.PESO_RATE}</span><span class="val">${formatUSD(p.envioBase)}</span></div>
+  ${p.dp > 0 ? `<div class="drow disc"><span class="lbl">Dto. envío (${p.dp}%)</span><span class="val">− ${formatUSD(p.envioDescMonto)}</span></div>` : ''}
+  ${p.aduanaDesglose.map(a => `<div class="drow"><span class="lbl">${escapeHTML(a.label)}</span><span class="val">${formatUSD(a.tarifa)}</span></div>`).join('')}
+  ${p.da > 0 ? `<div class="drow disc"><span class="lbl">Dto. desaduanaje (${p.da}%)</span><span class="val">− ${formatUSD(p.aduDescMonto)}</span></div>` : ''}
+  ${p.delivery.active ? `<div class="drow"><span class="lbl">${escapeHTML(p.delivery.label)}</span><span class="val">${p.delivery.val > 0 ? formatUSD(p.delivery.val) : '<span style="color:var(--green)">Sin costo</span>'}</span></div>` : ''}
+  ${p.isConcierge ? `<div class="drow promo"><span class="lbl">Concierge ($1 + 1% × ${formatUSD(p.totalValor)})</span><span class="val">${formatUSD(p.conciergeVal)}</span></div>` : ''}
+  <div class="divt"></div>
+  <div class="drow total"><span>Total servicios</span><span class="val">${formatUSD(p.totalServicios)}</span></div>
+</div>
+
+<div class="card">
+  <p class="sec-label">Impuestos SUNAT</p>
+  ${p.hayImpuestos ? p.tribDesglose.map(t => `
+    <div class="drow"><span class="lbl" style="font-weight:600;color:var(--ink)">${escapeHTML(t.desc)} — ${formatUSD(t.val)}</span><span></span></div>
+    <div class="drow"><span class="lbl" style="padding-left:10px">Ad valorem 4%</span><span class="val">${formatUSD(t.adval)}</span></div>
+    <div class="drow"><span class="lbl" style="padding-left:10px">IGV 16%</span><span class="val">${formatUSD(t.igv)}</span></div>
+    <div class="drow"><span class="lbl" style="padding-left:10px">IPM 2%</span><span class="val">${formatUSD(t.ipm)}</span></div>
+    <div class="divt"></div>
+  `).join('') + `<div class="drow total"><span>Total impuestos</span><span class="val" style="color:var(--brand-dark)">${formatUSD(p.totalTributos)}</span></div>`
+  : `<div class="empty-st">
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <p>Sin tributos aduaneros<br>${p.items.length === 1 ? 'valor ≤ $200' : 'ningún producto supera $200'}</p>
+    </div>`}
+</div>
+</div>
+
+<div class="card">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;gap:8px;flex-wrap:wrap">
+    <p class="sec-label" style="margin:0">Mensaje para el cliente</p>
+  </div>
+  <div class="msg-box" id="msg-box">${escapeHTML(mensaje)}</div>
+  <div class="btn-row">
+    <button type="button" class="btn btn-wa" id="btn-wa">
+      <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      Enviar por WhatsApp
+    </button>
+    <button type="button" class="btn btn-ghost" id="btn-copy">
+      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Copiar
+    </button>
+    <button type="button" class="btn btn-slate" id="btn-save" style="margin-left:auto">
+      <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Guardar
+    </button>
+  </div>
+</div>
+
+<p class="nota">Los impuestos SUNAT son referenciales. TC S/${state.tc.toFixed(2)} ${state.tcSrc === 'live' ? '(valor del día)' : '(referencial — no se pudo obtener el tipo de cambio actual)'}. Los montos exactos los determina SUNAT al momento del despacho.</p>
+`;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// MENSAJE WHATSAPP
+// ─────────────────────────────────────────────────────────────────
+function buildMensajeWA(p) {
+  const fecha = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const L = [];
+
+  L.push('📦 *COTIZACIÓN SHIPPER PERÚ*');
+  L.push(`📅 Fecha: ${fecha}`);
+  if (p.cliente) L.push(`👤 Cliente: ${p.cliente}`);
+  if (p.descCot) L.push(`🏷 Descripción: ${p.descCot}`);
+  L.push('');
+
+  if (p.isMulti && p.items.length > 0) {
+    L.push('🛍 *Productos:*');
+    p.items.forEach(i => {
+      if (i.val > 0) L.push(`   • ${i.desc || 'Producto'}: ${formatUSD(i.val)}`);
+    });
+    L.push(`   *Total productos:* ${formatUSD(p.totalValor)}`);
+    L.push('');
+  }
+
+  L.push('*💼 Nuestros servicios:*');
+  L.push(`   • Envío (${p.pesoFinal} kg × $${CONFIG.PESO_RATE}): ${formatUSD(p.envioBase)}${p.dp > 0 ? ` − dto. ${p.dp}% = ${formatUSD(p.envioFinal)}` : ''}`);
+  p.aduanaDesglose.forEach(a => {
+    L.push(`   • ${a.label}: ${formatUSD(a.tarifa)}`);
+  });
+  if (p.da > 0) L.push(`   • Dto. desaduanaje (${p.da}%): − ${formatUSD(p.aduDescMonto)}`);
+  if (p.delivery.active) {
+    L.push(`   • ${p.delivery.label}${p.delivery.val > 0 ? ' — ' + formatUSD(p.delivery.val) : ''}`);
+  }
+  if (p.isConcierge) L.push(`   • Concierge ($1 + 1%): ${formatUSD(p.conciergeVal)}`);
+  L.push(`   ✅ *Subtotal servicios: ${formatUSD(p.totalServicios)}*`);
+  L.push(`      ≈ ${formatPEN(p.totalServicios)}`);
+  L.push('');
+
+  if (p.hayImpuestos) {
+    L.push('*🏛 Impuestos SUNAT (aprox):*');
+    p.tribDesglose.forEach(t => {
+      L.push(`   • ${t.desc} (${formatUSD(t.val)}):`);
+      L.push(`      Ad val. ${formatUSD(t.adval)} + IGV ${formatUSD(t.igv)} + IPM ${formatUSD(t.ipm)} = ${formatUSD(t.sub)}`);
+    });
+    L.push(`   ⚠️ *Subtotal impuestos: ${formatUSD(p.totalTributos)}*`);
+    L.push('');
+  } else {
+    L.push('✅ Sin impuestos aduaneros (ningún producto supera $200)');
+    L.push('');
+  }
+
+  L.push(`💰 *TOTAL ESTIMADO: ${formatUSD(p.totalGeneral)}*`);
+  L.push(`   ≈ ${formatPEN(p.totalGeneral)} (TC ref. S/ ${state.tc.toFixed(2)})`);
+  L.push('');
+  L.push('_⚠ Los impuestos son referenciales y pueden variar según SUNAT al momento del despacho._');
+
+  return L.join('\n');
+}
+
+// ─────────────────────────────────────────────────────────────────
+// ACCIONES
+// ─────────────────────────────────────────────────────────────────
+function enviarPorWhatsApp() {
+  if (!state.lastResult) return;
+  const cliente = state.lastResult.cliente || 'Cliente';
+  const intro = `Hola, soy ${cliente} y cotice por la web:\n\n`;
+  const fullMsg = intro + state.lastResult.mensaje;
+  const url = `https://wa.me/${CONFIG.WA_NUMBER}?text=${encodeURIComponent(fullMsg)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+async function copiarMensaje() {
+  if (!state.lastResult) return;
+  const btn = $('btn-copy');
+  if (!btn) return;
+
+  const text = state.lastResult.mensaje;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      // Fallback para contextos no seguros
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    btn.classList.add('ok');
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ¡Copiado!`;
+    setTimeout(() => {
+      btn.classList.remove('ok');
+      btn.innerHTML = `<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar`;
+    }, 2000);
+  } catch (e) {
+    btn.textContent = 'Error al copiar';
+    setTimeout(() => calculate(), 1500);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// HISTORIAL
+// ─────────────────────────────────────────────────────────────────
+function getHistorial() {
+  return storage.get(CONFIG.STORAGE_KEY, []);
+}
+
+function saveHistorial(arr) {
+  return storage.set(CONFIG.STORAGE_KEY, arr);
+}
+
+function guardarCotizacion() {
+  if (!state.lastResult) return;
+  const btn = $('btn-save');
+  if (!btn) return;
+
+  const hist = getHistorial();
+  const id = Date.now();
+
+  // Solo guardar campos relevantes (no todo el HTML render)
+  const entry = {
+    id,
+    timestamp: id,
+    cliente: state.lastResult.cliente,
+    descCot: state.lastResult.descCot,
+    totalGeneral: state.lastResult.totalGeneral,
+    totalServicios: state.lastResult.totalServicios,
+    totalTributos: state.lastResult.totalTributos,
+    totalValor: state.lastResult.totalValor,
+    pesoFinal: state.lastResult.pesoFinal,
+    isMulti: state.lastResult.isMulti,
+    items: state.lastResult.items,
+    mensaje: state.lastResult.mensaje,
+    dp: state.lastResult.dp,
+    da: state.lastResult.da,
+    isConcierge: state.lastResult.isConcierge,
+    delivery: state.lastResult.delivery
+  };
+
+  hist.unshift(entry);
+  if (hist.length > CONFIG.MAX_HISTORIAL) hist.length = CONFIG.MAX_HISTORIAL;
+
+  if (saveHistorial(hist)) {
+    renderHistorial();
+    btn.classList.add('ok');
+    const orig = btn.innerHTML;
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Guardada`;
+    setTimeout(() => {
+      btn.classList.remove('ok');
+      btn.innerHTML = orig;
+    }, 1500);
+  } else {
+    btn.textContent = 'Error';
+  }
+}
+
+function eliminarHistorial(id) {
+  showModal({
+    title: 'Eliminar cotización',
+    msg: '¿Eliminar esta cotización del historial?',
+    onConfirm: () => {
+      saveHistorial(getHistorial().filter(x => x.id !== id));
+      renderHistorial();
+    }
+  });
+}
+
+function restaurarHistorial(item) {
+  $('cliente').value = item.cliente || '';
+  $('desc-cot').value = item.descCot || '';
+  $('tog-concierge').checked = !!item.isConcierge;
+  $('tog-delivery').checked = !!(item.delivery && item.delivery.active);
+  $('desc-peso').value = item.dp || '';
+  $('desc-aduana').value = item.da || '';
+
+  if ($('tog-delivery').checked) {
+    $('del-opts').style.display = 'block';
+    // No tenemos forma exacta de saber qué radio era, dejamos shalom por defecto
+  } else {
+    $('del-opts').style.display = 'none';
+  }
+
+  // Limpiar items
+  $('items-list').innerHTML = '';
+  state.itemSeq = 0;
+
+  if (item.isMulti) {
+    $('tog-multi').checked = true;
+    $('modo-single').style.display = 'none';
+    $('modo-multi').style.display = 'block';
+    (item.items || []).forEach(i => addItem(i.desc, i.val.toString()));
+    $('peso-m').value = item.pesoFinal || '';
+  } else {
+    $('tog-multi').checked = false;
+    $('modo-single').style.display = 'block';
+    $('modo-multi').style.display = 'none';
+    $('valor').value = item.totalValor || '';
+    $('peso').value = item.pesoFinal || '';
+  }
+
+  calculate();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function limpiarHistorialCompleto() {
+  showModal({
+    title: 'Limpiar historial',
+    msg: '¿Eliminar todas las cotizaciones guardadas? Esta acción no se puede deshacer.',
+    onConfirm: () => {
+      storage.remove(CONFIG.STORAGE_KEY);
+      renderHistorial();
+    }
+  });
+}
+
+function renderHistorial() {
+  const hist = getHistorial();
+  const list = $('hist-list');
+  const btnClear = $('btn-clear-hist');
+
+  if (hist.length === 0) {
+    list.innerHTML = '<p class="hist-empty">Sin cotizaciones guardadas</p>';
+    btnClear.style.display = 'none';
+    return;
+  }
+
+  btnClear.style.display = '';
+  list.innerHTML = hist.map((item, idx) => {
+    const fecha = new Date(item.timestamp).toLocaleDateString('es-PE', {
+      day: '2-digit', month: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    });
+    const titulo = item.cliente || item.descCot || 'Cotización';
+    return `<div class="hist-item">
+      <div class="hist-info">
+        <div class="hist-title">${escapeHTML(titulo)}</div>
+        <div class="hist-meta">${escapeHTML(fecha)} · ${formatUSD(item.totalValor)} · ${item.pesoFinal} kg</div>
+      </div>
+      <span class="hist-total">${formatUSD(item.totalGeneral)}</span>
+      <div class="hist-btns">
+        <button type="button" class="btn-hist" data-restore="${idx}" aria-label="Restaurar cotización" title="Restaurar">
+          <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        </button>
+        <button type="button" class="btn-hist del" data-delete="${item.id}" aria-label="Eliminar cotización" title="Eliminar">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Bind listeners (en lugar de inline onclick)
+  $$('[data-restore]', list).forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.getAttribute('data-restore'), 10);
+      restaurarHistorial(hist[idx]);
+    });
+  });
+  $$('[data-delete]', list).forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.getAttribute('data-delete'), 10);
+      eliminarHistorial(id);
+    });
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────
+// MODAL
+// ─────────────────────────────────────────────────────────────────
+function showModal({ title, msg, onConfirm }) {
+  $('modal-title').textContent = title;
+  $('modal-msg').textContent = msg;
+  state.modalCallback = onConfirm;
+  $('modal').classList.add('open');
+  $('modal-confirm').focus();
+}
+
+function closeModal() {
+  $('modal').classList.remove('open');
+  state.modalCallback = null;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────
+function init() {
+  // Toggles
+  $('tog-multi').addEventListener('change', function() {
+    $('modo-single').style.display = this.checked ? 'none' : 'block';
+    $('modo-multi').style.display = this.checked ? 'block' : 'none';
+    if (this.checked && $$('#items-list .item-row').length === 0) addItem();
+    calculate();
+  });
+
+  $('tog-delivery').addEventListener('change', function() {
+    $('del-opts').style.display = this.checked ? 'block' : 'none';
+    calculate();
+  });
+
+  $('tog-concierge').addEventListener('change', calculate);
+
+  $$('input[name=delivery]').forEach(r => r.addEventListener('change', calculate));
+
+  // Listener para inputs principales
+  $$('.card input:not([type=checkbox]):not([type=radio]), .card textarea').forEach(el => {
+    el.addEventListener('input', calculate);
+  });
+
+  // Botón agregar producto
+  $('btn-add-item').addEventListener('click', () => addItem());
+
+  // Historial
+  $('btn-clear-hist').addEventListener('click', limpiarHistorialCompleto);
+
+  // Modal
+  $('modal-cancel').addEventListener('click', closeModal);
+  $('modal-confirm').addEventListener('click', () => {
+    if (state.modalCallback) state.modalCallback();
+    closeModal();
+  });
+  $('modal').addEventListener('click', (e) => {
+    if (e.target.id === 'modal') closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && $('modal').classList.contains('open')) closeModal();
+  });
+
+  // Render inicial
+  renderSvcs();
+  renderHistorial();
+  renderTcPill();
+
+  // Fetch TC en background (no bloquea init)
+  fetchTipoCambio();
+}
+
+// Wait for DOM (safety, aunque está al final del body)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
